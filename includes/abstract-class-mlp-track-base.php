@@ -1,7 +1,7 @@
 <?php
 
 /**
- * The file that defines the abstract class mark for mlp.
+ * The file that defines the abstract class track for mlp.
  *
  *
  * @since      1.0.0
@@ -11,14 +11,14 @@
  */
 
 /**
- * Define the mark base.
+ * Define the track base.
  *
  *
  * @since      1.0.0
  *
  * @author     Anton Rzhevskiy <antonrzhevskiy@gmail.com>
  */
-abstract class MLP_Mark_Base {
+abstract class MLP_Track_Base {
 
 
 	/**
@@ -26,9 +26,18 @@ abstract class MLP_Mark_Base {
 	 *
 	 * @since      1.0.0
 	 *
-	 * @var        string         $mark_id       .
+	 * @var        string         $track_id      .
 	 */
-	protected $mark_id;
+	protected $track_id;
+
+	/**
+	 * .
+	 *
+	 * @since      1.0.0
+	 *
+	 * @var        array          $post_type     .
+	 */
+	protected $post_type;
 
 	/**
 	 * .
@@ -44,7 +53,7 @@ abstract class MLP_Mark_Base {
 	 *
 	 * @since      1.0.0
 	 *
-	 * @var        bool	          $full_match    .
+	 * @var        bool           $full_match    .
 	 */
 	protected $full_match;
 
@@ -79,6 +88,22 @@ abstract class MLP_Mark_Base {
 	 */
 	public function is_strict() {
 		return (bool) $this->full_match;
+	}
+
+	/**
+	 * Get registred.
+	 *
+	 * @since      1.0.0
+	 *
+	 * @param      string         $property      .
+	 *
+	 * @return     mixed          Property of class or null if fail.
+	 */
+	public function get( $property ) {
+		if ( property_exists( $this, $property ) ) {
+			return $this->{$property};
+		}
+		return null;
 	}
 
 
