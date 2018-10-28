@@ -49,13 +49,25 @@ abstract class MLP_Track_Base {
 	protected $type;
 
 	/**
-	 * .
+	 * Does the query in the database.
 	 *
 	 * @since      1.0.0
 	 *
 	 * @var        bool           $full_match    .
 	 */
 	protected $full_match;
+
+	/**
+	 * Parameters passed to the class constructor.
+	 *
+	 * In order to implement the following functionality,
+	 * must save the original data passed to the constructor.
+	 *
+	 * @since      1.0.0
+	 *
+	 * @var        array          $args          Parameters of constructor.
+	 */
+	protected $args;
 
 	/**
 	 * .

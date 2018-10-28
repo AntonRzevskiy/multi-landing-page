@@ -66,6 +66,8 @@ class MLP_Track_Tax extends MLP_Track_Base {
 	 */
 	public function __construct( $args ) {
 
+		$this->args = wp_parse_args( $args );
+
 		$this->type = 'taxonomy';
 
 		$this->track_id = $args[ 'track_id' ];
