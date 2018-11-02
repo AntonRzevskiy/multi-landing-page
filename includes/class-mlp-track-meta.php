@@ -87,7 +87,7 @@ class MLP_Track_Meta extends MLP_Track_Base {
 	/**
 	 * .
 	 *
-	 * @since      1.0.0          .
+	 * @since      1.0.0
 	 */
 	public function init() {
 
@@ -105,9 +105,11 @@ class MLP_Track_Meta extends MLP_Track_Base {
 	/**
 	 * .
 	 *
-	 * @since      1.0.0          .
+	 * @since      1.0.0
 	 */
 	public function display_metabox_init() {
+
+		wp_nonce_field( "_wp_nonce_{$this->track_id}", "_wp_nonce_{$this->track_id}" );
 
 		/**
 		 * .
@@ -117,6 +119,50 @@ class MLP_Track_Meta extends MLP_Track_Base {
 		 * @param      object         $this          .
 		 */
 		do_action_ref_array( "mlp_init_metabox_track_{$this->track_id}", array( &$this ) );
+
+	}
+
+	/**
+	 * .
+	 *
+	 * @since      1.0.0
+	 *
+	 * @param      int            $post_id       .
+	 */
+	public function save_post_data_init( $post_id ) {
+
+		if ( false === isset( $_POST[ "_wp_nonce_{$this->track_id}" ] ) ) {
+
+			return;
+		}
+
+		if ( false === wp_verify_nonce( $_POST[ "_wp_nonce_{$this->track_id}" ], "_wp_nonce_{$this->track_id}" ) ) {
+
+			return;
+		}
+
+		if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) {
+
+			return;
+		}
+
+		if( false === current_user_can( 'edit_post', $post_id ) ) {
+
+			return;
+		}
+
+		$data = $_POST[ "_wp_nonce_{$this->track_id}" ] );
+
+		/**
+		 * .
+		 *
+		 * This hook will fires if the user’s rights pass.
+		 *
+		 * @since      1.0.0
+		 *
+		 * @param      object         $this          .
+		 */
+		do_action_ref_array( "mlp_init_metabox_track_{$this->track_id}_save", array( &$this, $post_id, $data );
 
 	}
 
