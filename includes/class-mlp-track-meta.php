@@ -89,24 +89,6 @@ class MLP_Track_Meta extends MLP_Track_Base {
 	 *
 	 * @since      1.0.0
 	 */
-	public function init() {
-
-		/**
-		 * .
-		 *
-		 * @since      1.0.0
-		 *
-		 * @param      object         $this          .
-		 */
-		do_action_ref_array( "mlp_init_track_{$this->track_id}", array( &$this ) );
-
-	}
-
-	/**
-	 * .
-	 *
-	 * @since      1.0.0
-	 */
 	public function display_metabox_init() {
 
 		wp_nonce_field( "_wp_nonce_{$this->track_id}", "_wp_nonce_{$this->track_id}" );
@@ -118,7 +100,7 @@ class MLP_Track_Meta extends MLP_Track_Base {
 		 *
 		 * @param      object         $this          .
 		 */
-		do_action_ref_array( "mlp_init_metabox_track_{$this->track_id}", array( &$this ) );
+		do_action_ref_array( "mlp_init_metabox_track_{$this->track_id}_display", array( &$this ) );
 
 	}
 
@@ -131,7 +113,7 @@ class MLP_Track_Meta extends MLP_Track_Base {
 	 */
 	public function save_post_data_init( $post_id ) {
 
-		if ( false === isset( $_POST[ "_wp_nonce_{$this->track_id}" ] ) ) {
+		if ( false === isset( $_POST[ $this->track_id ] ) ) {
 
 			return;
 		}
@@ -151,7 +133,7 @@ class MLP_Track_Meta extends MLP_Track_Base {
 			return;
 		}
 
-		$data = $_POST[ "_wp_nonce_{$this->track_id}" ] );
+		$data = $_POST[ $this->track_id ];
 
 		/**
 		 * .

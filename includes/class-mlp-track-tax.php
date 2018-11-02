@@ -120,23 +120,5 @@ class MLP_Track_Tax extends MLP_Track_Base {
 
 	}
 
-	/**
-	 * .
-	 *
-	 * @since      1.0.0          .
-	 */
-	public function init() {
-
-		/**
-		 * .
-		 *
-		 * @since      1.0.0
-		 *
-		 * @param      object         $this          .
-		 */
-		do_action_ref_array( "mlp_init_track_{$this->track_id}", array( &$this ) );
-
-	}
-
 
 }
