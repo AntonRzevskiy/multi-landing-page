@@ -100,6 +100,15 @@ class MLP_Track_Meta extends MLP_Track_Base {
 		 *
 		 * @param      object         $this          .
 		 */
+		do_action_ref_array( 'mlp_init_metabox_track_display', array( &$this ) );
+
+		/**
+		 * .
+		 *
+		 * @since      1.0.0
+		 *
+		 * @param      object         $this          .
+		 */
 		do_action_ref_array( "mlp_init_metabox_track_{$this->track_id}_display", array( &$this ) );
 
 	}
@@ -134,6 +143,17 @@ class MLP_Track_Meta extends MLP_Track_Base {
 		}
 
 		$data = $_POST[ $this->track_id ];
+
+		/**
+		 * .
+		 *
+		 * This hook will fires if the user’s rights pass.
+		 *
+		 * @since      1.0.0
+		 *
+		 * @param      object         $this          .
+		 */
+		do_action_ref_array( 'mlp_init_metabox_track_save', array( &$this, $post_id, $data );
 
 		/**
 		 * .
