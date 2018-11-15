@@ -70,6 +70,8 @@ class MLP_Track_Tax extends MLP_Track_Base {
 
 		$this->type = 'taxonomy';
 
+		$this->object_type = isset( $args[ 'object_type' ] ) ? $args[ 'object_type' ] : 'post';
+
 		$this->track_id = $args[ 'track_id' ];
 
 		$this->full_match = true;
