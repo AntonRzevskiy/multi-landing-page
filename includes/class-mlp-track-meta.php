@@ -52,6 +52,8 @@ class MLP_Track_Meta extends MLP_Track_Base {
 
 		$this->type = 'meta';
 
+		$this->object_type = isset( $args[ 'object_type' ] ) ? $args[ 'object_type' ] : 'post';
+
 		$this->track_id = $args[ 'track_id' ];
 
 		$this->full_match = isset( $args[ 'full_match' ] ) ? $args[ 'full_match' ] : true;
