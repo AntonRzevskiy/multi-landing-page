@@ -49,6 +49,15 @@ abstract class MLP_Track_Base {
 	protected $type;
 
 	/**
+	 * .
+	 *
+	 * @since      1.0.0
+	 *
+	 * @var        string         $object_type   .
+	 */
+	protected $object_type;
+
+	/**
 	 * Does the query in the database.
 	 *
 	 * @since      1.0.0
