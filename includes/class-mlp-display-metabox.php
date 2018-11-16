@@ -65,11 +65,30 @@ class MLP_Display_Metabox {
 
 		<div class="mlp-track">
 			<label for="<?php echo $track->id; ?>"><?php _e( 'Fill track value' ); ?>: </label>
-			<input type="text" id="<?php echo $track->id; ?>" name="<?php echo $track->id; ?>">
+			<input type="text" id="<?php echo $track->id; ?>" name="<?php echo $track->id; ?>" value="<?php echo $this->get_meta_value( $track ); ?>">
 		</div>
 
 		<?php
 
+	}
+
+	/**
+	 * .
+	 *
+	 * @since      1.0.0
+	 */
+	public function get_meta_value( $track ) {
+
+		global $post;
+
+		$value = get_metadata( $track->object_type, $post->ID, $track->track_id, false );
+
+		if ( $value ) {
+
+			return $value[0];
+		}
+
+		return '';
 	}
 
 

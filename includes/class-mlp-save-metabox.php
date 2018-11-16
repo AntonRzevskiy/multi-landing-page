@@ -80,7 +80,7 @@ class MLP_Save_Metabox {
 	 */
 	public function prepare( $track, $post_id, $new_data, $old_data ) {
 
-		return $new_data;
+		return wp_slash( $new_data );
 	}
 
 	/**
