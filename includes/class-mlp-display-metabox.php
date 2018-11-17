@@ -39,12 +39,14 @@ class MLP_Display_Metabox {
 	 */
 	public function define_metabox_style( $track ) {
 
-		if ( false === isset( $track->args[ 'metabox_html' ][ 'type' ] ) ) {
+		$args = $track->get( 'args' );
+
+		if ( false === isset( $args[ 'metabox_html' ][ 'type' ] ) ) {
 
 			return;
 		}
 
-		switch ( $track->args[ 'metabox_html' ][ 'type' ] ) {
+		switch ( $args[ 'metabox_html' ][ 'type' ] ) {
 
 			case 'text':
 
@@ -64,8 +66,8 @@ class MLP_Display_Metabox {
 		?>
 
 		<div class="mlp-track">
-			<label for="<?php echo $track->id; ?>"><?php _e( 'Fill track value' ); ?>: </label>
-			<input type="text" id="<?php echo $track->id; ?>" name="<?php echo $track->id; ?>" value="<?php echo $this->get_meta_value( $track ); ?>">
+			<label for="<?php echo $track->get( 'track_id' ); ?>"><?php _e( 'Fill track value' ); ?>: </label>
+			<input type="text" id="<?php echo $track->get( 'track_id' ); ?>" name="<?php echo $track->get( 'track_id' ); ?>" value="<?php echo $this->get_meta_value( $track ); ?>">
 		</div>
 
 		<?php
@@ -81,7 +83,7 @@ class MLP_Display_Metabox {
 
 		global $post;
 
-		$value = get_metadata( $track->object_type, $post->ID, $track->track_id, false );
+		$value = get_metadata( $track->get( 'object_type' ), $post->ID, $track->get( 'track_id' ), false );
 
 		if ( $value ) {
 

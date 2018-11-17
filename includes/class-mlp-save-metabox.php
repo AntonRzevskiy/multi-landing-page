@@ -39,17 +39,19 @@ class MLP_Save_Metabox {
 	 */
 	public function define_metabox_save( $track, $post_id, $new_data ) {
 
-		if ( false === isset( $track->args[ 'metabox_html' ][ 'type' ] ) ) {
+		$args = $track->get( 'args' );
+
+		if ( false === isset( $args[ 'metabox_html' ][ 'type' ] ) ) {
 
 			return;
 		}
 
 		// get array metadata
-		$old_data = get_metadata( $track->object_type, $post_id, $track->track_id, false );
+		$old_data = get_metadata( $track->get( 'object_type' ), $post_id, $track->get( 'track_id' ), false );
 
 		$new_data = $this->prepare( $track, $post_id, $new_data, $old_data );
 
-		switch ( $track->args[ 'metabox_html' ][ 'type' ] ) {
+		switch ( $args[ 'metabox_html' ][ 'type' ] ) {
 
 			case 'text':
 
@@ -110,6 +112,10 @@ class MLP_Save_Metabox {
 			$old_data = array( '' );
 		}
 
+		$object_type = $track->get( 'object_type' );
+
+		$track_id = $track->get( 'track_id' );
+
 		/**
 		 * .
 		 *
@@ -130,11 +136,11 @@ class MLP_Save_Metabox {
 		 * @param      object         $track         .
 		 * @param      int            $post_id       .
 		 */
-		$old_data = apply_filters( "mlp_save_{$track->object_type}_metadata", $old_data, $track, $post_id );
+		$old_data = apply_filters( "mlp_save_{$object_type}_metadata", $old_data, $track, $post_id );
 
 		foreach ( $old_data as $old_value ) {
 
-			update_metadata( $track->object_type, $post_id, $track->track_id, $old_value );
+			update_metadata( $object_type, $post_id, $track_id, $old_value );
 
 		}
 
@@ -146,6 +152,10 @@ class MLP_Save_Metabox {
 	 * @since      1.0.0
 	 */
 	public function delete_metadata( $track, $post_id, $old_data ) {
+
+		$object_type = $track->get( 'object_type' );
+
+		$track_id = $track->get( 'track_id' );
 
 		/**
 		 * .
@@ -167,11 +177,11 @@ class MLP_Save_Metabox {
 		 * @param      object         $track         .
 		 * @param      int            $post_id       .
 		 */
-		$old_data = apply_filters( "mlp_delete_{$track->object_type}_metadata", $old_data, $track, $post_id );
+		$old_data = apply_filters( "mlp_delete_{$object_type}_metadata", $old_data, $track, $post_id );
 
 		foreach ( $old_data as $old_value ) {
 
-			delete_metadata( $track->object_type, $post_id, $track->track_id, $old_value );
+			delete_metadata( $object_type, $post_id, $track_id, $old_value );
 
 		}
 

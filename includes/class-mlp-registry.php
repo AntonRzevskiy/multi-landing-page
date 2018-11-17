@@ -125,24 +125,5 @@ class MLP_Registry extends MLP_Related_Base {
 
 	}
 
-	/**
-	 * Register save hook for meta tracks in WP.
-	 *
-	 * @since      1.0.0
-	 *
-	 * @param      int            $post_id       .
-	 */
-	public function save_post( $post_id ) {
-
-		$meta = $this->get_meta_tracks();
-
-		foreach ( $meta as $track ) {
-
-			$track->save_post_data_init( $post_id );
-
-		}
-
-	}
-
 
 }
