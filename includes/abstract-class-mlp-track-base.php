@@ -104,7 +104,7 @@ abstract class MLP_Track_Base {
 	 * @return     bool           .
 	 */
 	public function is_tax() {
-		return (bool) $this->type === 'taxonomy';
+		return $this->type === 'taxonomy';
 	}
 
 	/**
@@ -115,7 +115,7 @@ abstract class MLP_Track_Base {
 	 * @return     bool           .
 	 */
 	public function is_meta() {
-		return (bool) $this->type === 'meta';
+		return $this->type === 'meta';
 	}
 
 	/**

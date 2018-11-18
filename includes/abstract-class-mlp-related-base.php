@@ -44,13 +44,13 @@ abstract class MLP_Related_Base {
 	 *
 	 * @since      1.0.0
 	 */
-	public function get_taxonomy_tracks( $post_type = 'any' ) {
+	public function get_taxonomy_tracks( $post_type = 'any', $object_type = 'post' ) {
 
 		$filtered = array();
 
 		foreach ( $this->tracks as $track ) {
 
-			if ( $track->is_tax() && ( 'any' === $post_type || in_array( $post_type, $track->get( 'post_type' ) ) ) ) {
+			if ( $track->is_tax() && $object_type === $track->get( 'object_type' ) && ( 'any' === $post_type || in_array( $post_type, $track->get( 'post_type' ) ) ) ) {
 
 				$filtered[] = $track;
 			}
@@ -64,13 +64,13 @@ abstract class MLP_Related_Base {
 	 *
 	 * @since      1.0.0
 	 */
-	public function get_meta_tracks( $post_type = 'any' ) {
+	public function get_meta_tracks( $post_type = 'any', $object_type = 'post' ) {
 
 		$filtered = array();
 
 		foreach ( $this->tracks as $track ) {
 
-			if ( $track->is_meta() && ( 'any' === $post_type || in_array( $post_type, $track->get( 'post_type' ) ) ) ) {
+			if ( $track->is_meta() && $object_type === $track->get( 'object_type' ) && ( 'any' === $post_type || in_array( $post_type, $track->get( 'post_type' ) ) ) ) {
 
 				$filtered[] = $track;
 			}

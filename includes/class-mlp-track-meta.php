@@ -48,15 +48,26 @@ class MLP_Track_Meta extends MLP_Track_Base {
 	 */
 	public function __construct( $args ) {
 
-		$this->args = wp_parse_args( $args );
+		$args = wp_parse_args( $args, array(
+
+			'object_type'   => 'post',
+			'track_id'      => '',
+			'full_match'    => true,
+			'post_type'     => array(),
+			'meta_box'      => array(),
+			'meta_query'    => array(),
+
+		) );
+
+		$this->args = $args;
 
 		$this->type = 'meta';
 
-		$this->object_type = isset( $args[ 'object_type' ] ) ? $args[ 'object_type' ] : 'post';
+		$this->object_type = $args[ 'object_type' ];
 
 		$this->track_id = $args[ 'track_id' ];
 
-		$this->full_match = isset( $args[ 'full_match' ] ) ? $args[ 'full_match' ] : true;
+		$this->full_match = $args[ 'full_match' ];
 
 		$this->post_type = is_array( $args[ 'post_type' ] ) ? $args[ 'post_type' ] : array( $args[ 'post_type' ] );
 
@@ -155,7 +166,7 @@ class MLP_Track_Meta extends MLP_Track_Base {
 		 *
 		 * @param      object         $this          .
 		 */
-		do_action_ref_array( 'mlp_init_metabox_track_save', array( &$this, $post_id, $data );
+		do_action_ref_array( 'mlp_init_metabox_track_save', array( &$this, $post_id, $data ) );
 
 		/**
 		 * .
@@ -166,7 +177,7 @@ class MLP_Track_Meta extends MLP_Track_Base {
 		 *
 		 * @param      object         $this          .
 		 */
-		do_action_ref_array( "mlp_init_metabox_track_{$this->track_id}_save", array( &$this, $post_id, $data );
+		do_action_ref_array( "mlp_init_metabox_track_{$this->track_id}_save", array( &$this, $post_id, $data ) );
 
 	}
 
