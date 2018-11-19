@@ -35,9 +35,9 @@ class MLP_Track_Tax extends MLP_Track_Base {
 	 *
 	 * @since      1.0.0
 	 *
-	 * @var        array          $tax_query     .
+	 * @var        function       $fill_tax_query .
 	 */
-	protected $tax_query = array();
+	protected $fill_tax_query;
 
 	/**
 	 * Add filter select in admin panel.
@@ -68,13 +68,13 @@ class MLP_Track_Tax extends MLP_Track_Base {
 
 		$args = wp_parse_args( $args, array(
 
-			'object_type'   => 'post',
-			'track_id'      => '',
-			'post_type'     => array(),
-			'taxonomy_args' => array(),
-			'tax_query'     => array(),
-			'filter'        => false,
-			'filter_args'   => array(),
+			'object_type'    => 'post',
+			'track_id'       => '',
+			'post_type'      => array(),
+			'taxonomy_args'  => array(),
+			'fill_tax_query' => array( $this, 'fill_tax_query' ),
+			'filter'         => false,
+			'filter_args'    => array(),
 
 		) );
 
@@ -99,14 +99,7 @@ class MLP_Track_Tax extends MLP_Track_Base {
 
 		) );
 
-		$this->tax_query = wp_parse_args( $args[ 'tax_query' ], array(
-
-			'taxonomy' => $this->track_id,
-			'field'    => 'name',
-			'terms'    => array(), // will be filled later
-			'operator' => 'IN',
-
-		) );
+		$this->fill_tax_query = $args[ 'fill_tax_query' ];
 
 		$this->filter = $args[ 'filter' ];
 
@@ -131,6 +124,24 @@ class MLP_Track_Tax extends MLP_Track_Base {
 
 		// Init
 		$this->init();
+
+	}
+
+	/**
+	 * .
+	 *
+	 * @since      1.0.0
+	 */
+	public function fill_tax_query( $url ) {
+
+		return array(
+
+			'taxonomy' => $this->track_id,
+			'field'    => 'name',
+			'terms'    => array( $url ),
+			'operator' => 'IN',
+
+		);
 
 	}
 
