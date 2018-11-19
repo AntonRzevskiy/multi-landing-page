@@ -68,13 +68,27 @@ abstract class MLP_Query_Base {
 	/**
 	 * .
 	 *
+	 * @since      1.0.0
+	 *
+	 * @access     protected
+	 *
+	 * @var        bool           $strict        .
+	 */
+	protected $strict;
+
+	/**
+	 * .
+	 *
 	 * @since    1.0.0
 	 *
 	 * @param      bool           $strict        Optional. TRUE - This means that the result of the query
 	 *                                           will not be processed additionally. FALSE - Postprocessing
-	 *                                           is assumed. Default true.
+	 *                                           is assumed. Also, all tracks get information about this value.
+	 *                                           Default true.
 	 */
 	public function query( $query_args = array(), $url = array(), $strict = true ) {
+
+		$this->strict = $strict;
 
 		$this->query_args = wp_parse_args( $query_args );
 
@@ -132,11 +146,11 @@ abstract class MLP_Query_Base {
 
 		$tax_query = array();
 
-		foreach ( $args as $pair ) {
+		foreach ( $args as $params ) {
 
-			$fn = $pair[ 'track' ]->get( 'fill_tax_query' );
+			$fn = $params[ 'track' ]->get( 'fill_tax_query' );
 
-			$part = call_user_func_array( $fn, $pair );
+			$part = call_user_func_array( $fn, $params );
 
 			if ( $part ) {
 
@@ -162,11 +176,11 @@ abstract class MLP_Query_Base {
 
 		$meta_query = array();
 
-		foreach ( $args as $pair ) {
+		foreach ( $args as $params ) {
 
-			$fn = $pair[ 'track' ]->get( 'fill_meta_query' );
+			$fn = $params[ 'track' ]->get( 'fill_meta_query' );
 
-			$part = call_user_func_array( $fn, $pair );
+			$part = call_user_func_array( $fn, $params );
 
 			if ( $part ) {
 
@@ -200,11 +214,11 @@ abstract class MLP_Query_Base {
 
 			if ( array_key_exists( $track->get( 'track_id' ), $atts ) ) {
 
-				$out[] = array( 'url' => $url[ $track->get( 'track_id' ) ], 'track' => $track );
+				$out[] = array( 'url' => $url[ $track->get( 'track_id' ) ], 'track' => $track, 'strict' => $this->strict );
 
 			} else {
 
-				$out[] = array( 'url' => '', 'track' => $track );
+				$out[] = array( 'url' => '', 'track' => $track, 'strict' => $this->strict );
 
 			}
 		}

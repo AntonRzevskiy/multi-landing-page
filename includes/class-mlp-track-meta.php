@@ -94,7 +94,7 @@ class MLP_Track_Meta extends MLP_Track_Base {
 	 *
 	 * @since      1.0.0
 	 */
-	public function fill_meta_query( $url, $track ) {
+	public function fill_meta_query( $url, $track, $strict ) {
 
 		return array(
 

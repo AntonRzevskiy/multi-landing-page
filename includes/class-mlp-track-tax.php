@@ -132,7 +132,7 @@ class MLP_Track_Tax extends MLP_Track_Base {
 	 *
 	 * @since      1.0.0
 	 */
-	public function fill_tax_query( $url, $track ) {
+	public function fill_tax_query( $url, $track, $strict ) {
 
 		return array(
 
