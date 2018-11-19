@@ -92,7 +92,7 @@ abstract class MLP_Query_Base {
 
 		$this->query_args = wp_parse_args( $query_args );
 
-        // parse URL
+		// parse URL
 		$this->url = wp_parse_args( $url, $_GET );
 
 
@@ -113,7 +113,7 @@ abstract class MLP_Query_Base {
 		$this->query_args[ 'meta_query' ] = $this->prepare_meta_query( $white_meta_tracks );
 
 
-        $this->query_args = apply_filters( 'mlp_query', $this->query_args );
+		$this->query_args = apply_filters( 'mlp_query', $this->query_args );
 
 		$this->last_query = new WP_Query( $this->query_args );
 
