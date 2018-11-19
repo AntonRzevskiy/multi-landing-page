@@ -143,6 +143,8 @@ class Multi_Landing_Page {
 
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-mlp-save-metabox.php';
 
+		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/abstract-class-mlp-query-base.php';
+
 
 		$this->loader = new MLP_Loader();
 
