@@ -118,7 +118,7 @@ abstract class MLP_Query_Base {
 		$this->last_query = new WP_Query( $this->query_args );
 
 
-		if ( false === $strict ) {
+		if ( false === $this->strict ) {
 
 			/**
 			 * .
