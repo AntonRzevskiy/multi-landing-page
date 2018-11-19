@@ -35,9 +35,9 @@ class MLP_Track_Meta extends MLP_Track_Base {
 	 *
 	 * @since      1.0.0
 	 *
-	 * @var        array          $meta_query    .
+	 * @var        function       $fill_meta_query .
 	 */
-	protected $meta_query = array();
+	protected $fill_meta_query;
 
 	/**
 	 * Constructor.
@@ -50,12 +50,12 @@ class MLP_Track_Meta extends MLP_Track_Base {
 
 		$args = wp_parse_args( $args, array(
 
-			'object_type'   => 'post',
-			'track_id'      => '',
-			'full_match'    => true,
-			'post_type'     => array(),
-			'meta_box'      => array(),
-			'meta_query'    => array(),
+			'object_type'     => 'post',
+			'track_id'        => '',
+			'full_match'      => true,
+			'post_type'       => array(),
+			'meta_box'        => array(),
+			'fill_meta_query' => array( $this, 'fill_meta_query' ),
 
 		) );
 
@@ -82,18 +82,28 @@ class MLP_Track_Meta extends MLP_Track_Base {
 
 		) );
 
-		$this->meta_query = wp_parse_args( $args[ 'meta_query' ], array(
-
-			// It can be any array according to the documentation WP.
-			// 'key'      => $this->track_id,
-			// 'value'    => '', // will be defined later
-			// 'compare'  => $this->is_strict() ? '=' : 'LIKE',
-			// 'type '    => 'CHAR',
-
-		) );
+		$this->fill_meta_query = $args[ 'fill_meta_query' ];
 
 		// Init
 		$this->init();
+
+	}
+
+	/**
+	 * .
+	 *
+	 * @since      1.0.0
+	 */
+	public function fill_meta_query( $url, $track ) {
+
+		return array(
+
+			'key'      => $this->track_id,
+			'value'    => $url,
+			'compare'  => $this->is_strict() ? '=' : 'LIKE',
+			'type '    => 'CHAR',
+
+		);
 
 	}
 
