@@ -59,6 +59,17 @@ class Multi_Landing_Page {
 	protected $version;
 
 	/**
+	 * The tracks registered via hooks.
+	 *
+	 * @since      1.0.0
+	 *
+	 * @access     protected
+	 *
+	 * @var        MLP_Registry   $registry      The instance of class.
+	 */
+	protected $registry;
+
+	/**
 	 * Define the core functionality of the plugin.
 	 *
 	 * Set the plugin name and the plugin version that can be used throughout the plugin.
@@ -83,6 +94,8 @@ class Multi_Landing_Page {
 		$this->load_dependencies();
 
 		$this->define_hooks();
+
+		$this->define_public();
 
 		$this->mpl_fully_loaded();
 
@@ -110,9 +123,14 @@ class Multi_Landing_Page {
 		 */
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-mlp-loader.php';
 
-
+		/**
+		 * The base class for register all tracks.
+		 */
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/abstract-class-mlp-related-base.php';
 
+		/**
+		 * The child class that registers tracks through WP hooks.
+		 */
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-mlp-registry.php';
 
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/abstract-class-mlp-track-base.php';
@@ -139,16 +157,16 @@ class Multi_Landing_Page {
 	 */
 	private function define_hooks() {
 
-		$registry = new MLP_Registry();
+		$this->registry = new MLP_Registry();
 
-		$this->loader->add_action( 'init', $registry, 'add_url_tracks' );
-		$this->loader->add_action( 'init', $registry, 'add_post_type' );
+		$this->loader->add_action( 'init', $this->registry, 'add_url_tracks' );
+		$this->loader->add_action( 'init', $this->registry, 'add_post_type' );
 
-		$this->loader->add_action( 'init', $registry, 'register_post_type' );
-		$this->loader->add_action( 'init', $registry, 'register_taxonomy' );
-		$this->loader->add_action( 'init', $registry, 'register_metaboxes' );
+		$this->loader->add_action( 'init', $this->registry, 'register_post_type' );
+		$this->loader->add_action( 'init', $this->registry, 'register_taxonomy' );
+		$this->loader->add_action( 'init', $this->registry, 'register_metaboxes' );
 
-		foreach ( $registry->get_meta_tracks() as $track ) {
+		foreach ( $this->registry->get_meta_tracks() as $track ) {
 
 			foreach ( $track->get( 'post_type' ) as $post_type ) {
 
@@ -161,16 +179,36 @@ class Multi_Landing_Page {
 	}
 
 	/**
-	 * .
+	 * Load public functionality.
+	 *
+	 * @since      1.0.0
+	 *
+	 * @access     private
+	 */
+	private function define_public() {
+
+		
+
+	}
+
+	/**
+	 * Set the final hook of the plugin.
 	 *
 	 * @since      1.0.0
 	 *
 	 * @access     private
 	 */
 	private function mpl_fully_loaded() {
-
 		$this->loader->add_action( 'init', $this, 'mlp_loaded' );
+	}
 
+	/**
+	 * Fire the hook after the plugin is ready.
+	 *
+	 * @since      1.0.0
+	 */
+	public function mlp_loaded() {
+        do_action( 'mlp_init' );
 	}
 
 	/**
@@ -214,15 +252,6 @@ class Multi_Landing_Page {
 	 */
 	public function get_version() {
 		return $this->version;
-	}
-
-	/**
-	 * .
-	 *
-	 * @since      1.0.0
-	 */
-	public function mlp_loaded() {
-        do_action( 'mlp_init' );
 	}
 
 
