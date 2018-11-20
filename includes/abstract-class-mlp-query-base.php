@@ -212,7 +212,7 @@ abstract class MLP_Query_Base {
 
 		foreach ( $tracks as $track ) {
 
-			if ( array_key_exists( $track->get( 'track_id' ), $atts ) ) {
+			if ( array_key_exists( $track->get( 'track_id' ), $url ) ) {
 
 				$out[] = array( 'url' => $url[ $track->get( 'track_id' ) ], 'track' => $track, 'strict' => $this->strict );
 

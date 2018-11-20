@@ -70,6 +70,17 @@ class Multi_Landing_Page {
 	protected $registry;
 
 	/**
+	 * .
+	 *
+	 * @since      1.0.0
+	 *
+	 * @access     protected
+	 *
+	 * @var        MLP_Query      $query         The instance of class.
+	 */
+	protected $query;
+
+	/**
 	 * Define the core functionality of the plugin.
 	 *
 	 * Set the plugin name and the plugin version that can be used throughout the plugin.
@@ -145,6 +156,8 @@ class Multi_Landing_Page {
 
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/abstract-class-mlp-query-base.php';
 
+		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-mlp-query.php';
+
 
 		$this->loader = new MLP_Loader();
 
@@ -189,7 +202,7 @@ class Multi_Landing_Page {
 	 */
 	private function define_public() {
 
-		
+		$this->query = new MLP_Query( $this->registry );
 
 	}
 
@@ -254,6 +267,15 @@ class Multi_Landing_Page {
 	 */
 	public function get_version() {
 		return $this->version;
+	}
+
+	/**
+	 * .
+	 *
+	 * @since      1.0.0
+	 */
+	public function get_query() {
+		return $this->query;
 	}
 
 
