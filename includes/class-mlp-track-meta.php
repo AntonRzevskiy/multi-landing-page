@@ -96,6 +96,11 @@ class MLP_Track_Meta extends MLP_Track_Base {
 	 */
 	public function fill_meta_query( $url, $track, $strict ) {
 
+		if ( '' === $url ) {
+
+			return false;
+		}
+
 		return array(
 
 			'key'      => $this->track_id,

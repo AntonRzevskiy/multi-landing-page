@@ -92,6 +92,15 @@ abstract class MLP_Track_Base {
 		 *
 		 * @param      object         $this          .
 		 */
+		do_action_ref_array( "mlp_init_track_{$this->type}", array( &$this ) );
+
+		/**
+		 * .
+		 *
+		 * @since      1.0.0
+		 *
+		 * @param      object         $this          .
+		 */
 		do_action_ref_array( "mlp_init_track_{$this->track_id}", array( &$this ) );
 
 	}

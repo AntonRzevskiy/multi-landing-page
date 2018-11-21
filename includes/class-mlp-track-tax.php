@@ -40,24 +40,6 @@ class MLP_Track_Tax extends MLP_Track_Base {
 	protected $fill_tax_query;
 
 	/**
-	 * Add filter select in admin panel.
-	 *
-	 * @since      1.0.0
-	 *
-	 * @var        bool           $filter        .
-	 */
-	protected $filter = false;
-
-	/**
-	 * Params for wp_dropdown_categories function.
-	 *
-	 * @since      1.0.0
-	 *
-	 * @var        array          $filter_args   .
-	 */
-	protected $filter_args = array();
-
-	/**
 	 * Constructor.
 	 *
 	 * @since      1.0.0
@@ -73,8 +55,6 @@ class MLP_Track_Tax extends MLP_Track_Base {
 			'post_type'      => array(),
 			'taxonomy_args'  => array(),
 			'fill_tax_query' => array( $this, 'fill_tax_query' ),
-			'filter'         => false,
-			'filter_args'    => array(),
 
 		) );
 
@@ -93,34 +73,13 @@ class MLP_Track_Tax extends MLP_Track_Base {
 		$this->taxonomy_args = wp_parse_args( $args[ 'taxonomy_args' ], array(
 
 			'hierarchical'       => false,
-			'rewrite'            => false,
+			'rewrite'            => true,
 			'publicly_queryable' => false,
 			'query_var'          => false,
 
 		) );
 
 		$this->fill_tax_query = $args[ 'fill_tax_query' ];
-
-		$this->filter = $args[ 'filter' ];
-
-		if ( $this->filter ) {
-
-			$this->filter_args = wp_parse_args( $args[ 'filter_args' ], array(
-
-				'show_option_none'  => __( 'All' ),
-				'option_none_value' => '',
-				'show_count'        => true,
-				'hide_empty'        => true,
-				'echo'              => true,
-				'name'              => "taxonomy={$this->track_id}&term",
-				'taxonomy'          => $this->track_id,
-				'hide_if_empty'     => true,
-				'value_field'       => 'slug',
-				'selected'          => null, // will be defined later
-
-			) );
-
-		}
 
 		// Init
 		$this->init();
@@ -133,6 +92,11 @@ class MLP_Track_Tax extends MLP_Track_Base {
 	 * @since      1.0.0
 	 */
 	public function fill_tax_query( $url, $track, $strict ) {
+
+		if ( '' === $url ) {
+
+			return false;
+		}
 
 		return array(
 

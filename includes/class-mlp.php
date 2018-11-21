@@ -158,6 +158,8 @@ class Multi_Landing_Page {
 
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-mlp-query.php';
 
+		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-mlp-track-tax-filter.php';
+
 
 		$this->loader = new MLP_Loader();
 
@@ -185,6 +187,8 @@ class Multi_Landing_Page {
 		$display_metabox = new MLP_Display_Metabox();
 
 		$save_metabox = new MLP_Save_Metabox();
+
+		$track_tax_filter = new MLP_Track_Tax_Filter();
 
 	}
 
