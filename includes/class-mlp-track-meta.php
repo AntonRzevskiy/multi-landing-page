@@ -155,14 +155,14 @@ class MLP_Track_Meta extends MLP_Track_Base {
 			return;
 		}
 
-		if ( false === wp_verify_nonce( $_POST[ "_wp_nonce_{$this->track_id}" ], "_wp_nonce_{$this->track_id}" ) ) {
+		if ( false === isset( $_POST[ "_wp_nonce_{$this->track_id}" ] ) ) {
 
 			return;
 		}
 
-		if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) {
+		if ( false === wp_verify_nonce( $_POST[ "_wp_nonce_{$this->track_id}" ], "_wp_nonce_{$this->track_id}" ) ) {
 
-			// return;
+			return;
 		}
 
 		if( false === current_user_can( 'edit_post', $post_id ) ) {
