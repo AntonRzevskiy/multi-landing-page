@@ -87,7 +87,7 @@ class MLP_Display_Metabox {
 
 		if ( $value ) {
 
-			return $value[0];
+			return wp_unslash( $value[0] );
 		}
 
 		return '';

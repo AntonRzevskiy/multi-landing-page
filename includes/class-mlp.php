@@ -179,17 +179,12 @@ class Multi_Landing_Page {
 
 		$this->loader->add_action( 'init', $this->registry, 'register_post_type' );
 		$this->loader->add_action( 'init', $this->registry, 'register_taxonomy' );
-		$this->loader->add_action( 'init', $this->registry, 'register_metaboxes' );
+		$this->loader->add_action( 'add_meta_boxes', $this->registry, 'register_metaboxes' );
+		$this->loader->add_action( 'init', $this->registry, 'save_metaboxes' );
 
-		foreach ( $this->registry->get_meta_tracks() as $track ) {
+		$display_metabox = new MLP_Display_Metabox();
 
-			foreach ( $track->get( 'post_type' ) as $post_type ) {
-
-				$this->loader->add_action( "save_post_{$post_type}", $track, 'save_post_data_init' );
-
-			}
-
-		}
+		$save_metabox = new MLP_Save_Metabox();
 
 	}
 
@@ -276,6 +271,15 @@ class Multi_Landing_Page {
 	 */
 	public function get_query() {
 		return $this->query;
+	}
+
+	/**
+	 * .
+	 *
+	 * @since      1.0.0
+	 */
+	public function get_registry() {
+		return $this->registry;
 	}
 
 

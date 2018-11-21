@@ -119,7 +119,36 @@ class MLP_Registry extends MLP_Related_Base {
 
 		foreach ( $meta as $track ) {
 
-			add_meta_box( $track->get( 'meta_box' ) );
+			$id = $title = $callback = $screen = $callback_args = NULL;
+
+			$context = 'advanced';
+
+			$priority = 'default';
+
+			extract( $track->get( 'meta_box' ), EXTR_IF_EXISTS );
+
+			add_meta_box( $id, $title, $callback, $screen, $context, $priority, $callback_args );
+
+		}
+
+	}
+
+	/**
+	 * Register save post hooks for meta tracks in WP.
+	 *
+	 * @since      1.0.0
+	 */
+	public function save_metaboxes() {
+
+		$meta = $this->get_meta_tracks();
+
+		foreach ( $meta as $track ) {
+
+			foreach ( $track->get( 'post_type' ) as $post_type ) {
+
+				add_action( "save_post_{$post_type}", array( $track, 'save_post_data_init' ) );
+
+			}
 
 		}
 
