@@ -145,6 +145,11 @@ class MLP_Track_Meta extends MLP_Track_Base {
 	 */
 	public function save_post_data_init( $post_id ) {
 
+		if ( wp_is_post_revision( $post_id ) ) {
+
+			return;
+		}
+
 		if ( false === isset( $_POST[ $this->track_id ] ) ) {
 
 			return;
@@ -157,7 +162,7 @@ class MLP_Track_Meta extends MLP_Track_Base {
 
 		if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) {
 
-			return;
+			// return;
 		}
 
 		if( false === current_user_can( 'edit_post', $post_id ) ) {
