@@ -61,7 +61,7 @@ class MLP_Save_Metabox {
 
 						$this->save_metadata( $track, $post_id, $new_data, $old_data );
 
-					} else {
+					} else if ( $old_data ) {
 
 						$this->delete_metadata( $track, $post_id, $old_data );
 
@@ -102,11 +102,6 @@ class MLP_Save_Metabox {
 	 */
 	public function save_metadata( $track, $post_id, $new_data, $old_data ) {
 
-		if ( false === is_array( $old_data ) ) {
-
-			$old_data = array( $old_data );
-		}
-
 		if ( empty( $old_data ) ) {
 
 			$old_data = array( '' );
@@ -140,7 +135,7 @@ class MLP_Save_Metabox {
 
 		foreach ( $old_data as $old_value ) {
 
-			update_metadata( $object_type, $post_id, $track_id, $old_value );
+			update_metadata( $object_type, $post_id, $track_id, $new_data, $old_value );
 
 		}
 
