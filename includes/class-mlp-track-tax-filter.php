@@ -104,7 +104,7 @@ class MLP_Track_Tax_Filter {
 
 		foreach ( $this->filter_track[ 'post' ] as $id => $filter ) {
 
-			if ( 'any' === $filter[ 'post_type' ] || in_array( $post_type, $filter[ 'post_type' ] ) ) {
+			if ( empty( $filter[ 'post_type' ] ) || in_array( $post_type, $filter[ 'post_type' ] ) ) {
 
 				$filter[ 'args' ][ 'selected' ] = ( isset( $_GET[ $id ] ) ? $_GET[ $id ] : -1 );
 
