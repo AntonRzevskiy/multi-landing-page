@@ -93,11 +93,6 @@ class MLP_Track_Tax extends MLP_Track_Base {
 	 */
 	public function fill_tax_query( $url, $track, $strict ) {
 
-		if ( '' === $url ) {
-
-			return false;
-		}
-
 		return array(
 
 			'taxonomy' => $this->track_id,
