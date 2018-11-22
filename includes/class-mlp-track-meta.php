@@ -101,12 +101,37 @@ class MLP_Track_Meta extends MLP_Track_Base {
 			return false;
 		}
 
+		if ( $url && false === $this->is_strict() ) {
+
+			return array(
+
+				'relation' => 'OR',
+
+				array(
+
+					'key'      => $this->track_id,
+					'value'    => $url,
+					'compare'  => 'LIKE',
+					'type'     => 'CHAR',
+
+				),
+
+				array(
+
+					'key'      => $this->track_id,
+					'compare'  => 'NOT EXISTS',
+
+				),
+
+			);
+		}
+
 		return array(
 
 			'key'      => $this->track_id,
 			'value'    => $url,
-			'compare'  => $this->is_strict() ? '=' : 'LIKE',
-			'type '    => 'CHAR',
+			'compare'  => '=',
+			'type'     => 'CHAR',
 
 		);
 
