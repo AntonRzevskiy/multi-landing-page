@@ -79,4 +79,18 @@ if ( false === function_exists( 'mlp_load' ) ) {
 	 */
 	$mlp_instance = mlp_load();
 
+	/**
+	 * Global API.
+	 */
+	if ( false === function_exists( 'mlp_query' ) ) {
+
+		function mlp_query() {
+
+			global $mlp_instance;
+
+			return call_user_func_array( array( $mlp_instance->get_query(), 'query' ), func_get_args() );
+		}
+
+	}
+
 }

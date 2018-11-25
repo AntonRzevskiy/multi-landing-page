@@ -57,13 +57,15 @@ class MLP_Save_Metabox {
 
 				if ( $this->valid( $track, $post_id, $new_data, $old_data ) ) {
 
+					if ( count( $old_data ) > count( $new_data ) ) {
+
+						$this->delete_metadata( $track, $post_id, $new_data, $old_data );
+
+					}
+
 					if ( $new_data ) {
 
 						$this->save_metadata( $track, $post_id, $new_data, $old_data );
-
-					} else if ( $old_data ) {
-
-						$this->delete_metadata( $track, $post_id, $old_data );
 
 					}
 
@@ -81,6 +83,16 @@ class MLP_Save_Metabox {
 	 * @since      1.0.0
 	 */
 	public function prepare( $track, $post_id, $new_data, $old_data ) {
+
+		if ( $new_data && false === is_array( $new_data ) ) {
+
+			$new_data = array( $new_data );
+
+		} else {
+
+			$new_data = array();
+
+		}
 
 		return wp_slash( $new_data );
 	}
@@ -102,11 +114,6 @@ class MLP_Save_Metabox {
 	 */
 	public function save_metadata( $track, $post_id, $new_data, $old_data ) {
 
-		if ( empty( $old_data ) ) {
-
-			$old_data = array( '' );
-		}
-
 		$object_type = $track->get( 'object_type' );
 
 		$track_id = $track->get( 'track_id' );
@@ -116,26 +123,28 @@ class MLP_Save_Metabox {
 		 *
 		 * @since      1.0.0
 		 *
-		 * @param      array          $old_data      .
+		 * @param      array          $new_data      .
 		 * @param      object         $track         .
 		 * @param      int            $post_id       .
 		 */
-		$old_data = apply_filters( 'mlp_save_metadata', $old_data, $track, $post_id );
+		$new_data = apply_filters( 'mlp_save_metadata', $new_data, $track, $post_id );
 
 		/**
 		 * .
 		 *
 		 * @since      1.0.0
 		 *
-		 * @param      array          $old_data      .
+		 * @param      array          $new_data      .
 		 * @param      object         $track         .
 		 * @param      int            $post_id       .
 		 */
-		$old_data = apply_filters( "mlp_save_{$object_type}_metadata", $old_data, $track, $post_id );
+		$new_data = apply_filters( "mlp_save_{$object_type}_metadata", $new_data, $track, $post_id );
 
-		foreach ( $old_data as $old_value ) {
+		foreach ( $new_data as $key => $new_value ) {
 
-			update_metadata( $object_type, $post_id, $track_id, $new_data, $old_value );
+			$old_value = ( isset( $old_data[ $key ] ) ? $old_data[ $key ] : '' );
+
+			update_metadata( $object_type, $post_id, $track_id, $new_value, $old_value );
 
 		}
 
@@ -146,11 +155,13 @@ class MLP_Save_Metabox {
 	 *
 	 * @since      1.0.0
 	 */
-	public function delete_metadata( $track, $post_id, $old_data ) {
+	public function delete_metadata( $track, $post_id, $new_data, $old_data ) {
 
 		$object_type = $track->get( 'object_type' );
 
 		$track_id = $track->get( 'track_id' );
+
+		$old_data = array_slice( $old_data, count( $new_data ) );
 
 		/**
 		 * .

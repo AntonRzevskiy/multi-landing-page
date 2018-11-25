@@ -160,6 +160,8 @@ class Multi_Landing_Page {
 
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-mlp-track-tax-filter.php';
 
+		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-mlp-track-meta-regexp-column.php';
+
 
 		$this->loader = new MLP_Loader();
 
@@ -189,6 +191,8 @@ class Multi_Landing_Page {
 		$save_metabox = new MLP_Save_Metabox();
 
 		$track_tax_filter = new MLP_Track_Tax_Filter();
+
+		$track_meta_regexp_column = new MLP_Track_Meta_Regexp_Column();
 
 	}
 

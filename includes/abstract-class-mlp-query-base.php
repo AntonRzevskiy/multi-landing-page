@@ -37,11 +37,9 @@ abstract class MLP_Query_Base {
 	 *
 	 * @since      1.0.0
 	 *
-	 * @access     protected
-	 *
 	 * @var        object         $last_query    .
 	 */
-	protected $last_query;
+	public $last_query;
 
 	/**
 	 * .
@@ -95,6 +93,15 @@ abstract class MLP_Query_Base {
 		// parse URL
 		$this->url = wp_parse_args( $url, $_GET );
 
+		/**
+		 * .
+		 *
+		 * @since      1.0.0
+		 *
+		 * @param      array          $url           .
+		 */
+		$this->url = apply_filters( 'mlp_url', $this->url );
+
 
 		$post_type = isset( $this->query_args[ 'post_type' ] ) ? $this->query_args[ 'post_type' ] : 'any';
 
@@ -112,7 +119,13 @@ abstract class MLP_Query_Base {
 
 		$this->query_args[ 'meta_query' ] = $this->prepare_meta_query( $white_meta_tracks );
 
-
+		/**
+		 * .
+		 *
+		 * @since      1.0.0
+		 *
+		 * @param      array          $query_args    .
+		 */
 		$this->query_args = apply_filters( 'mlp_query', $this->query_args );
 
 		$this->last_query = new WP_Query( $this->query_args );
