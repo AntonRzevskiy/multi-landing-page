@@ -219,6 +219,9 @@ class MLP_Track_Meta_Regexp_Column {
 
 				update_metadata( $track->get( 'object_type' ), $post_id, $track->get( 'track_id' ) . '-public', $new_value, $old_value );
 
+				// convert back to regexp
+				$new_value = wp_unslash( $new_value );
+
 				if ( false === $this->valid( $track, $post_id, $new_value, $old_value ) ) {
 
 					/**
