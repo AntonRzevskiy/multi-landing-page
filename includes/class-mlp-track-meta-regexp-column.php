@@ -221,6 +221,7 @@ class MLP_Track_Meta_Regexp_Column {
 
 				// convert back to regexp
 				$new_value = wp_unslash( $new_value );
+				$old_value = wp_unslash( $old_value );
 
 				if ( false === $this->valid( $track, $post_id, $new_value, $old_value ) ) {
 
