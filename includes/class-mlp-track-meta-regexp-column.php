@@ -221,6 +221,18 @@ class MLP_Track_Meta_Regexp_Column {
 
 				if ( false === $this->valid( $track, $post_id, $new_value, $old_value ) ) {
 
+					/**
+					 * .
+					 *
+					 * @since      1.0.0
+					 *
+					 * @param      object         $track         .
+					 * @param      int            $post_id       .
+					 * @param      string         $new_value     .
+					 * @param      string         $old_value     .
+					 */
+					do_action( 'mlp_regexp_column_metadata_invalid', $track, $post_id, $new_value, $old_value );
+
 					return;
 				}
 
