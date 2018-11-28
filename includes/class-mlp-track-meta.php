@@ -22,6 +22,24 @@ class MLP_Track_Meta extends MLP_Track_Base {
 
 
 	/**
+	 * Include metadata functions.
+	 *
+	 * @since      1.0.0
+	 *
+	 * @var        array          $meta_box      .
+	 */
+	use MLP_Metadata;
+
+	/**
+	 * Include display functions.
+	 *
+	 * @since      1.0.0
+	 *
+	 * @trait      array          $meta_box      .
+	 */
+	use MLP_Display_Metabox;
+
+	/**
 	 * Params for add_meta_box function.
 	 *
 	 * @since      1.0.0
@@ -71,16 +89,20 @@ class MLP_Track_Meta extends MLP_Track_Base {
 
 		$this->post_type = is_array( $args[ 'post_type' ] ) ? $args[ 'post_type' ] : array( $args[ 'post_type' ] );
 
-		$this->meta_box = wp_parse_args( $args[ 'meta_box' ], array(
+		if ( false !== $args[ 'meta_box' ] ) {
 
-			'id'            => $this->track_id,
-			'title'         => $this->track_id,
-			'callback'      => array( $this, 'display_metabox_init' ),
-			'screen'        => $this->post_type,
-			'context'       => 'side',
-			'priority'      => 'low'
+			$this->meta_box = wp_parse_args( $args[ 'meta_box' ], array(
 
-		) );
+				'id'            => $this->track_id,
+				'title'         => $this->track_id,
+				'callback'      => array( $this, 'display_metabox_init' ),
+				'screen'        => $this->post_type,
+				'context'       => 'side',
+				'priority'      => 'low'
+
+			) );
+
+		}
 
 		$this->fill_meta_query = $args[ 'fill_meta_query' ];
 
@@ -164,6 +186,8 @@ class MLP_Track_Meta extends MLP_Track_Base {
 		 */
 		do_action_ref_array( "mlp_init_metabox_track_{$this->track_id}_display", array( &$this ) );
 
+		$this->display_track_html( $this );
+
 	}
 
 	/**
@@ -223,6 +247,8 @@ class MLP_Track_Meta extends MLP_Track_Base {
 		 * @param      object         $this          .
 		 */
 		do_action_ref_array( "mlp_init_metabox_track_{$this->track_id}_save", array( &$this, $post_id, $data ) );
+
+		$this->define_process_meta( $this, $post_id, $data );
 
 	}
 

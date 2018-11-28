@@ -132,35 +132,37 @@ class Multi_Landing_Page {
 		 * The class responsible for orchestrating the actions and filters of the
 		 * core plugin.
 		 */
-		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-mlp-loader.php';
+		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/core/class-mlp-loader.php';
 
 		/**
 		 * The base class for register all tracks.
 		 */
-		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/abstract-class-mlp-related-base.php';
+		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/core/abstract-class-mlp-related-base.php';
+
+		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/core/abstract-class-mlp-track-base.php';
+
+		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/core/abstract-class-mlp-query-base.php';
+
+		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/core/trait-mlp-metadata.php';
+
+		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/core/trait-mlp-display-metabox.php';
 
 		/**
 		 * The child class that registers tracks through WP hooks.
 		 */
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-mlp-registry.php';
 
-		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/abstract-class-mlp-track-base.php';
-
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-mlp-track-tax.php';
 
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-mlp-track-meta.php';
 
-		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-mlp-display-metabox.php';
-
-		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-mlp-save-metabox.php';
-
-		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/abstract-class-mlp-query-base.php';
-
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-mlp-query.php';
 
-		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-mlp-track-tax-filter.php';
+		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/ext/class-mlp-track-tax-filter.php';
 
-		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-mlp-track-meta-regexp-column.php';
+		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/ext/class-mlp-registry-meta-regexp-column.php';
+
+		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/ext/class-mlp-track-meta-regexp-column.php';
 
 
 		$this->loader = new MLP_Loader();
@@ -186,13 +188,9 @@ class Multi_Landing_Page {
 		$this->loader->add_action( 'add_meta_boxes', $this->registry, 'register_metaboxes' );
 		$this->loader->add_action( 'init', $this->registry, 'save_metaboxes' );
 
-		$display_metabox = new MLP_Display_Metabox();
-
-		$save_metabox = new MLP_Save_Metabox();
-
 		$track_tax_filter = new MLP_Track_Tax_Filter();
 
-		$track_meta_regexp_column = new MLP_Track_Meta_Regexp_Column();
+		$registry_meta_regexp_column = new MLP_Registry_Meta_Regexp_Column();
 
 	}
 

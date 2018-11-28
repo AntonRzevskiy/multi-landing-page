@@ -119,15 +119,19 @@ class MLP_Registry extends MLP_Related_Base {
 
 		foreach ( $meta as $track ) {
 
-			$id = $title = $callback = $screen = $callback_args = NULL;
+			if ( $track->get( 'meta_box' ) ) {
 
-			$context = 'advanced';
+				$id = $title = $callback = $screen = $callback_args = NULL;
 
-			$priority = 'default';
+				$context = 'advanced';
 
-			extract( $track->get( 'meta_box' ), EXTR_IF_EXISTS );
+				$priority = 'default';
 
-			add_meta_box( $id, $title, $callback, $screen, $context, $priority, $callback_args );
+				extract( $track->get( 'meta_box' ), EXTR_IF_EXISTS );
+
+				add_meta_box( $id, $title, $callback, $screen, $context, $priority, $callback_args );
+
+			}
 
 		}
 

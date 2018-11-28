@@ -18,7 +18,7 @@
  *
  * @author     Anton Rzhevskiy <antonrzhevskiy@gmail.com>
  */
-class MLP_Track_Meta_Regexp_Column {
+class MLP_Track_Meta_Regexp_Column extends MLP_Track_Meta {
 
 
 	/**
@@ -35,45 +35,21 @@ class MLP_Track_Meta_Regexp_Column {
 	 *
 	 * @since      1.0.0
 	 */
-	public function __construct() {
-
-		add_filter( 'mlp_add_track', array( $this, 'define_track' ), 10, 2 );
+	public function __construct( $track ) {
 
 		add_filter( 'posts_where', array( $this, 'replace_posts_where' ), 10, 2 );
 
 		add_filter( 'mlp_query', array( $this, 'mlp_query_config' ) );
 
-	}
 
-	/**
-	 * .
-	 *
-	 * @since      1.0.0
-	 */
-	public function define_track( $tracks, $track ) {
+		$track = wp_parse_args( $track, array(
 
-		if ( 'regexp-column' === $track[ 'type' ] ) {
+			'full_match' => false,
 
-			$track = wp_parse_args( $track, array(
+		) );
 
-				'full_match'      => false,
-				'fill_meta_query' => array( $this, 'fill_meta_query' ),
+		parent::__construct( $track );
 
-			) );
-
-
-
-			add_action( "mlp_init_metabox_track_{$track[ 'track_id' ]}_display", array( $this, 'display_metabox' ) );
-
-			add_action( "mlp_init_metabox_track_{$track[ 'track_id' ]}_save", array( $this, 'save_metabox' ), 10, 3 );
-
-
-
-			$tracks[] = new MLP_Track_Meta( $track );
-
-		}
-
-		return $tracks;
 	}
 
 	/**
@@ -130,63 +106,10 @@ class MLP_Track_Meta_Regexp_Column {
 	 * .
 	 *
 	 * @since      1.0.0
-	 */
-	public function display_metabox( $track ) {
-
-		global $post;
-
-		$value = $this->get_meta_value( $track );
-
-		$valid = $this->valid( $track, $post->ID, $value, '' );
-
-		?>
-
-		<div class="mlp-track <?php echo ( $valid ? 'valid' : 'invalid' ); ?>">
-			<label for="<?php echo $track->get( 'track_id' ); ?>"><?php _e( 'Fill track value' ); ?>: </label>
-			<input type="text" id="<?php echo $track->get( 'track_id' ); ?>" name="<?php echo $track->get( 'track_id' ); ?>" value="<?php echo $value; ?>">
-		</div>
-
-		<?php
-
-	}
-
-	/**
-	 * .
-	 *
-	 * @since      1.0.0
-	 */
-	public function get_meta_value( $track ) {
-
-		global $post;
-
-		$value = get_metadata( $track->get( 'object_type' ), $post->ID, $track->get( 'track_id' ) . '-public', false );
-
-		if ( $value ) {
-
-			return wp_unslash( $value[0] );
-		}
-
-		return '';
-	}
-
-	/**
-	 * .
-	 *
-	 * @since      1.0.0
-	 */
-	public function valid( $track, $post_id, $new_data, $old_data ) {
-
-		return true;
-	}
-
-	/**
-	 * .
-	 *
-	 * @since      1.0.0
 	 *
 	 * @param      int            $post_id       .
 	 */
-	public function save_metabox( $track, $post_id, $new_data ) {
+	public function define_process_meta( $track, $post_id = NULL, $new_data = array() ) {
 
 		// get array metadata
 		$old_data = get_metadata( $track->get( 'object_type' ), $post_id, $track->get( 'track_id' ) . '-public', false );
@@ -223,7 +146,7 @@ class MLP_Track_Meta_Regexp_Column {
 				$new_value = wp_unslash( $new_value );
 				$old_value = wp_unslash( $old_value );
 
-				if ( false === $this->valid( $track, $post_id, $new_value, $old_value ) ) {
+				if ( false === $this->is_valid_data( $track, $post_id, $new_value, $old_value ) ) {
 
 					/**
 					 * .
@@ -257,6 +180,25 @@ class MLP_Track_Meta_Regexp_Column {
 
 		}
 
+	}
+
+	/**
+	 * .
+	 *
+	 * @since      1.0.0
+	 */
+	public function get_metadata( $track, $post_id = NULL ) {
+
+		global $post;
+
+		$data = get_metadata( $track->get( 'object_type' ), $post->ID, $track->get( 'track_id' ) . '-public', false );
+
+		if ( $data ) {
+
+			return wp_unslash( $data );
+		}
+
+		return array();
 	}
 
 	/**
