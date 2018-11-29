@@ -25,6 +25,58 @@ trait MLP_Metadata {
 	 * .
 	 *
 	 * @since      1.0.0
+	 *
+	 * @param      int            $post_id       .
+	 */
+	public function verify_save( $post_id ) {
+
+		if ( wp_is_post_revision( $post_id ) ) {
+
+			return false;
+		}
+
+		if ( false === isset( $_POST[ $this->track_id ] ) ) {
+
+			return false;
+		}
+
+		if ( false === isset( $_POST[ "_wp_nonce_{$this->track_id}" ] ) ) {
+
+			return false;
+		}
+
+		if ( false === wp_verify_nonce( $_POST[ "_wp_nonce_{$this->track_id}" ], "_wp_nonce_{$this->track_id}" ) ) {
+
+			return false;
+		}
+
+		if( false === current_user_can( 'edit_post', $post_id ) ) {
+
+			return false;
+		}
+
+		return true;
+	}
+
+	/**
+	 * .
+	 *
+	 * @since      1.0.0
+	 */
+	public function get_saving_data() {
+
+		if ( isset( $_POST[ $this->track_id ] ) ) {
+
+			return $_POST[ $this->track_id ];
+		}
+
+		return '';
+	}
+
+	/**
+	 * .
+	 *
+	 * @since      1.0.0
 	 */
 	public function define_process_meta( $track, $post_id = NULL, $new_data = array() ) {
 

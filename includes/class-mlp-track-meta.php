@@ -26,7 +26,7 @@ class MLP_Track_Meta extends MLP_Track_Base {
 	 *
 	 * @since      1.0.0
 	 *
-	 * @var        array          $meta_box      .
+	 * @trait
 	 */
 	use MLP_Metadata;
 
@@ -35,7 +35,7 @@ class MLP_Track_Meta extends MLP_Track_Base {
 	 *
 	 * @since      1.0.0
 	 *
-	 * @trait      array          $meta_box      .
+	 * @trait
 	 */
 	use MLP_Display_Metabox;
 
@@ -199,32 +199,12 @@ class MLP_Track_Meta extends MLP_Track_Base {
 	 */
 	public function save_post_data_init( $post_id ) {
 
-		if ( wp_is_post_revision( $post_id ) ) {
+		if ( false === $this->verify_save( $post_id ) ) {
 
 			return;
 		}
 
-		if ( false === isset( $_POST[ $this->track_id ] ) ) {
-
-			return;
-		}
-
-		if ( false === isset( $_POST[ "_wp_nonce_{$this->track_id}" ] ) ) {
-
-			return;
-		}
-
-		if ( false === wp_verify_nonce( $_POST[ "_wp_nonce_{$this->track_id}" ], "_wp_nonce_{$this->track_id}" ) ) {
-
-			return;
-		}
-
-		if( false === current_user_can( 'edit_post', $post_id ) ) {
-
-			return;
-		}
-
-		$data = $_POST[ $this->track_id ];
+		$data = $this->get_saving_data();
 
 		/**
 		 * .

@@ -41,6 +41,8 @@ class MLP_Registry_Meta_Regexp_Column {
 
 		if ( 'regexp-column' === $track[ 'type' ] ) {
 
+			$tracks[] = new MLP_Track_Meta_Regexp_Column_Admin( $track );
+
 			$tracks[] = new MLP_Track_Meta_Regexp_Column( $track );
 
 		}

@@ -162,6 +162,8 @@ class Multi_Landing_Page {
 
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/ext/class-mlp-registry-meta-regexp-column.php';
 
+		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/ext/class-mlp-track-meta-regexp-column-admin.php';
+
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/ext/class-mlp-track-meta-regexp-column.php';
 
 
