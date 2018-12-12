@@ -105,19 +105,23 @@ abstract class MLP_Query_Base {
 
 		$post_type = isset( $this->query_args[ 'post_type' ] ) ? $this->query_args[ 'post_type' ] : 'any';
 
+		$tax_query = isset( $this->query_args[ 'tax_query' ] ) ? $this->query_args[ 'tax_query' ] : array();
+
+		$meta_query = isset( $this->query_args[ 'meta_query' ] ) ? $this->query_args[ 'meta_query' ] : array();
+
 
 		$registered_tax_tracks = $this->registry->get_taxonomy_tracks( $post_type );
 
 		$white_tax_tracks = $this->get_white_list_tracks( $registered_tax_tracks, $this->url );
 
-		$this->query_args[ 'tax_query' ] = $this->prepare_tax_query( $white_tax_tracks );
+		$this->query_args[ 'tax_query' ] = $this->prepare_tax_query( $tax_query, $white_tax_tracks );
 
 
 		$registered_meta_tracks = $this->registry->get_meta_tracks( $post_type );
 
 		$white_meta_tracks = $this->get_white_list_tracks( $registered_meta_tracks, $this->url );
 
-		$this->query_args[ 'meta_query' ] = $this->prepare_meta_query( $white_meta_tracks );
+		$this->query_args[ 'meta_query' ] = $this->prepare_meta_query( $meta_query, $white_meta_tracks );
 
 		/**
 		 * .
@@ -155,9 +159,7 @@ abstract class MLP_Query_Base {
 	 *
 	 * @access     protected
 	 */
-	protected function prepare_tax_query( $args = array() ) {
-
-		$tax_query = array();
+	protected function prepare_tax_query( $tax_query = array(), $args = array() ) {
 
 		foreach ( $args as $params ) {
 
@@ -185,9 +187,7 @@ abstract class MLP_Query_Base {
 	 *
 	 * @access     protected
 	 */
-	protected function prepare_meta_query( $args = array() ) {
-
-		$meta_query = array();
+	protected function prepare_meta_query( $meta_query = array(), $args = array() ) {
 
 		foreach ( $args as $params ) {
 
