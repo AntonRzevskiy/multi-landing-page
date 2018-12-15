@@ -72,12 +72,14 @@ class MLP_Track_Tax_Filter {
 		$args[ 'filter_args' ] = wp_parse_args( $args[ 'filter_args' ], array(
 
 			'show_option_none'  => __( 'All' ),
+			'option_none_value' => '',
 			'show_count'        => true,
 			'hide_empty'        => true,
 			'echo'              => true,
 			'name'              => $track_id,
 			'taxonomy'          => $track_id,
 			'hide_if_empty'     => true,
+			'value_field'       => 'name',
 
 		) );
 

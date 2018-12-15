@@ -75,7 +75,7 @@ class MLP_Track_Tax extends MLP_Track_Base {
 			'hierarchical'       => false,
 			'rewrite'            => true,
 			'publicly_queryable' => false,
-			'query_var'          => false,
+			'query_var'          => true,
 
 		) );
 
