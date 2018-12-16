@@ -76,6 +76,7 @@ class MLP_Track_Tax extends MLP_Track_Base {
 			'rewrite'            => true,
 			'publicly_queryable' => false,
 			'query_var'          => true,
+			'show_in_rest'       => true, // for Gutenberg editor
 
 		) );
 
