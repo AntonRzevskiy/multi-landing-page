@@ -67,7 +67,7 @@ class MLP_Track_Meta_Regexp_Column extends MLP_Track_Meta {
 			return false;
 		}
 
-		$this->replace_query[ 'search' ][] = "/([\w.]+?)meta_value REGEXP '{$url}'/um";
+		$this->replace_query[ 'search' ][] = "/([\w.]+)?meta_value REGEXP '{$url}'/um";
 
 		$this->replace_query[ 'replace' ][] = "'{$url}' REGEXP \\1meta_value";
 
