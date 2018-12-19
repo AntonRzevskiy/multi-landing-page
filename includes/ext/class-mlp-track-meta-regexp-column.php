@@ -177,6 +177,11 @@ class MLP_Track_Meta_Regexp_Column extends MLP_Track_Meta {
 			return $where;
 		}
 
+		if ( false === isset( $this->replace_query[ 'search' ] ) || false === isset( $this->replace_query[ 'replace' ] ) ) {
+
+			return $where;
+		}
+
 		$where = preg_replace( $this->replace_query[ 'search' ], $this->replace_query[ 'replace' ], $where );
 
 		return $where;
