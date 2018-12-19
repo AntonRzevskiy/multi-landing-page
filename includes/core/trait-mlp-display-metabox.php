@@ -34,7 +34,7 @@ trait MLP_Display_Metabox {
 
 		$valid = $this->is_valid_data( $track, $post->ID, $data, array() );
 
-		$value = ( isset( $data[ 0 ] ) ? $data[ 0 ] : '' );
+		$value = esc_html( wp_unslash( isset( $data[ 0 ] ) ? $data[ 0 ] : '' ) );
 
 		?>
 

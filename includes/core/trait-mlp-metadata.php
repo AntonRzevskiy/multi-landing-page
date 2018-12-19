@@ -120,7 +120,9 @@ trait MLP_Metadata {
 
 			$new_data = array( $new_data );
 
-		} else {
+		}
+
+		if ( is_null( $new_data ) || '' === $new_data ) {
 
 			$new_data = array();
 
@@ -164,7 +166,7 @@ trait MLP_Metadata {
 
 		if ( $data ) {
 
-			return wp_unslash( $data );
+			return $data;
 		}
 
 		return array();
