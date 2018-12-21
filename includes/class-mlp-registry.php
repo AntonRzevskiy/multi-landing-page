@@ -28,6 +28,13 @@ class MLP_Registry extends MLP_Related_Base {
 	 */
 	public function add_url_tracks() {
 
+		/**
+		 * Fires for add tracks in plugin.
+		 *
+		 * @since      1.0.0
+		 *
+		 * @param      array          $tracks        Tracks.
+		 */
 		$tracks = apply_filters( 'mlp_register_url_tracks', array() );
 
 		foreach ( $tracks as $track ) {
@@ -38,6 +45,16 @@ class MLP_Registry extends MLP_Related_Base {
 
 				case 'meta': $this->tracks[] = new MLP_Track_Meta( $track ); break;
 
+				/**
+				 * Fires if the default track type is undefined.
+				 *
+				 * This filter is used to add tracks and their subsequent processing.
+				 *
+				 * @since      1.0.0
+				 *
+				 * @param      array          $tracks        Tracks.
+				 * @param      array          $track         Current track.
+				 */
 				default: $this->tracks = apply_filters( 'mlp_add_track', $this->tracks, $track );
 			}
 
@@ -52,6 +69,13 @@ class MLP_Registry extends MLP_Related_Base {
 	 */
 	public function add_post_type() {
 
+		/**
+		 * Fires for add post type in plugin.
+		 *
+		 * @since      1.0.0
+		 *
+		 * @param      array          $post_types    Post types.
+		 */
 		$this->post_types = apply_filters( 'mlp_register_post_type', $this->post_types );
 	}
 
