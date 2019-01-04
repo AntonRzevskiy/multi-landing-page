@@ -226,7 +226,7 @@ trait MLP_Metadata {
 
 		$track_id = $track->get( 'track_id' );
 
-		$old_data = array_slice( $old_data, count( $new_data ) );
+		$old_data = wp_slash( array_slice( $old_data, count( $new_data ) ) );
 
 		/**
 		 * .

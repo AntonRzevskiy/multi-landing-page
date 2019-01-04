@@ -153,7 +153,9 @@ class MLP_Track_Meta_Regexp_Column extends MLP_Track_Meta {
 
 			$new_data = array( $new_data );
 
-		} else {
+		}
+
+		if ( is_null( $new_data ) || '' === $new_data ) {
 
 			$new_data = array();
 
