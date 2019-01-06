@@ -128,7 +128,7 @@ trait MLP_Metadata {
 
 		}
 
-		return wp_slash( $new_data );
+		return $new_data;
 	}
 
 	/**
@@ -226,7 +226,7 @@ trait MLP_Metadata {
 
 		$track_id = $track->get( 'track_id' );
 
-		$old_data = wp_slash( array_slice( $old_data, count( $new_data ) ) );
+		$old_data = array_slice( $old_data, count( $new_data ) );
 
 		/**
 		 * .
@@ -250,7 +250,7 @@ trait MLP_Metadata {
 		 */
 		$old_data = apply_filters( "mlp_delete_{$object_type}_metadata", $old_data, $track, $post_id );
 
-		foreach ( $old_data as $old_value ) {
+		foreach ( wp_slash( $old_data ) as $old_value ) {
 
 			delete_metadata( $object_type, $post_id, $track_id, $old_value );
 

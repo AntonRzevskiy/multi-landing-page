@@ -48,9 +48,6 @@ class MLP_Track_Meta_Regexp_Column extends MLP_Track_Meta {
 
 		) );
 
-		// hide meta box
-		$track[ 'meta_box' ] = false;
-
 		parent::__construct( $track );
 
 	}
@@ -125,43 +122,6 @@ class MLP_Track_Meta_Regexp_Column extends MLP_Track_Meta {
 		}
 
 		return true;
-	}
-
-	/**
-	 * .
-	 *
-	 * @since      1.0.0
-	 */
-	public function get_saving_data() {
-
-		if ( isset( $_POST[ $this->track_id . '-admin' ] ) ) {
-
-			return $_POST[ $this->track_id . '-admin' ];
-		}
-
-		return '';
-	}
-
-	/**
-	 * .
-	 *
-	 * @since      1.0.0
-	 */
-	public function prepare_data( $track, $post_id, $new_data, $old_data ) {
-
-		if ( $new_data && false === is_array( $new_data ) ) {
-
-			$new_data = array( $new_data );
-
-		}
-
-		if ( is_null( $new_data ) || '' === $new_data ) {
-
-			$new_data = array();
-
-		}
-
-		return $new_data;
 	}
 
 	/**
