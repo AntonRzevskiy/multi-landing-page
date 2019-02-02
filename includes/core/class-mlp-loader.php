@@ -6,7 +6,7 @@
  * @since      1.0.0
  *
  * @package    multi-landing-page
- * @subpackage multi-landing-page/includes
+ * @subpackage multi-landing-page/includes/core
  */
 
 /**

@@ -7,7 +7,7 @@
  * @since      1.0.0
  *
  * @package    multi-landing-page
- * @subpackage multi-landing-page/includes
+ * @subpackage multi-landing-page/includes/ext
  */
 
 /**
@@ -100,7 +100,7 @@ class MLP_Track_Tax_Filter {
 		}
 
 		if ( false === isset( $this->filter_track[ 'post' ] ) ) {
-			
+
 			return;
 		}
 

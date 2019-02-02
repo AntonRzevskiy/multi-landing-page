@@ -22,11 +22,11 @@ class MLP_Track_Tax extends MLP_Track_Base {
 
 
 	/**
-	 * Params for register_taxonomy function.
+	 * Params for register_taxonomy WP function.
 	 *
 	 * @since      1.0.0
 	 *
-	 * @var        array          $taxonomy_args .
+	 * @var        array          $taxonomy_args
 	 */
 	protected $taxonomy_args = array();
 
@@ -35,7 +35,7 @@ class MLP_Track_Tax extends MLP_Track_Base {
 	 *
 	 * @since      1.0.0
 	 *
-	 * @var        function       $fill_tax_query .
+	 * @var        function       $fill_tax_query
 	 */
 	protected $fill_tax_query;
 
@@ -44,7 +44,7 @@ class MLP_Track_Tax extends MLP_Track_Base {
 	 *
 	 * @since      1.0.0
 	 *
-	 * @param      array          $args          .
+	 * @param      array          $args          Arguments when creating.
 	 */
 	public function __construct( $args ) {
 
@@ -88,9 +88,15 @@ class MLP_Track_Tax extends MLP_Track_Base {
 	}
 
 	/**
-	 * .
+	 * Fill part of taxonomy query.
 	 *
 	 * @since      1.0.0
+	 *
+	 * @param      string         $url           URL value.
+	 * @param      object         $track         Current instance.
+	 * @param      bool           $strict        Is the query strict.
+	 *
+	 * @return     array          Part of taxonomy query.
 	 */
 	public function fill_tax_query( $url, $track, $strict ) {
 

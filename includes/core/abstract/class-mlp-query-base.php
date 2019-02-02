@@ -7,7 +7,7 @@
  * @since      1.0.0
  *
  * @package    multi-landing-page
- * @subpackage multi-landing-page/includes
+ * @subpackage multi-landing-page/includes/core/abstract
  */
 
 /**
@@ -20,17 +20,6 @@
  */
 abstract class MLP_Query_Base {
 
-
-	/**
-	 * The tracks registered via hooks.
-	 *
-	 * @since      1.0.0
-	 *
-	 * @access     protected
-	 *
-	 * @var        MLP_Registry   $registry      The instance of class.
-	 */
-	protected $registry;
 
 	/**
 	 * .

@@ -18,51 +18,15 @@
  *
  * @author     Anton Rzhevskiy <antonrzhevskiy@gmail.com>
  */
-class MLP_Track_Meta extends MLP_Track_Base {
+class MLP_Track_Meta extends MLP_Track_Meta_Base {
 
-
-	/**
-	 * Include metadata functions.
-	 *
-	 * @since      1.0.0
-	 *
-	 * @trait
-	 */
-	use MLP_Metadata;
-
-	/**
-	 * Include display functions.
-	 *
-	 * @since      1.0.0
-	 *
-	 * @trait
-	 */
-	use MLP_Display_Metabox;
-
-	/**
-	 * Params for add_meta_box function.
-	 *
-	 * @since      1.0.0
-	 *
-	 * @var        array          $meta_box      .
-	 */
-	protected $meta_box = array();
-
-	/**
-	 * Params for WP_Query.
-	 *
-	 * @since      1.0.0
-	 *
-	 * @var        function       $fill_meta_query .
-	 */
-	protected $fill_meta_query;
 
 	/**
 	 * Constructor.
 	 *
 	 * @since      1.0.0
 	 *
-	 * @param      array          $args          .
+	 * @param      array          $args          Arguments when creating.
 	 */
 	public function __construct( $args ) {
 
@@ -112,9 +76,15 @@ class MLP_Track_Meta extends MLP_Track_Base {
 	}
 
 	/**
-	 * .
+	 * Fill part of meta query.
 	 *
 	 * @since      1.0.0
+	 *
+	 * @param      string         $url           URL value.
+	 * @param      object         $track         Current instance.
+	 * @param      bool           $strict        Is the query strict.
+	 *
+	 * @return     array          Part of meta query.
 	 */
 	public function fill_meta_query( $url, $track, $strict ) {
 
@@ -160,76 +130,88 @@ class MLP_Track_Meta extends MLP_Track_Base {
 	}
 
 	/**
-	 * .
-	 *
+	 * Vertify save track.
+ 	 *
 	 * @since      1.0.0
+	 *
+	 * @param      int/string     $post_id       ID of page.
+	 *
+	 * @return     bool           True if current user have permissions. False if fail.
 	 */
-	public function display_metabox_init() {
+	public function verify_save( $post_id ) {
 
-		wp_nonce_field( "_wp_nonce_{$this->track_id}", "_wp_nonce_{$this->track_id}" );
+		if ( wp_is_post_revision( $post_id ) ) {
 
-		/**
-		 * .
-		 *
-		 * @since      1.0.0
-		 *
-		 * @param      object         $this          .
-		 */
-		do_action_ref_array( 'mlp_init_metabox_track_display', array( &$this ) );
+			return false;
+		}
 
-		/**
-		 * .
-		 *
-		 * @since      1.0.0
-		 *
-		 * @param      object         $this          .
-		 */
-		do_action_ref_array( "mlp_init_metabox_track_{$this->track_id}_display", array( &$this ) );
+		if ( false === isset( $_POST[ $this->track_id ] ) ) {
 
-		$this->display_track_html( $this );
+			return false;
+		}
 
+		if ( false === isset( $_POST[ "_wp_nonce_{$this->track_id}" ] ) ) {
+
+			return false;
+		}
+
+		if ( false === wp_verify_nonce( $_POST[ "_wp_nonce_{$this->track_id}" ], "_wp_nonce_{$this->track_id}" ) ) {
+
+			return false;
+		}
+
+		if( false === current_user_can( 'edit_post', $post_id ) ) {
+
+			return false;
+		}
+
+		return true;
 	}
 
 	/**
-	 * .
+	 * Get data for save.
 	 *
 	 * @since      1.0.0
 	 *
-	 * @param      int            $post_id       .
+	 * @return     mixed          Saving data.
 	 */
-	public function save_post_data_init( $post_id ) {
+	public function get_saving_data() {
 
-		if ( false === $this->verify_save( $post_id ) ) {
+		if ( isset( $_POST[ $this->track_id ] ) ) {
 
-			return;
+			return $_POST[ $this->track_id ];
 		}
 
-		$data = $this->get_saving_data();
+		return '';
+	}
 
-		/**
-		 * .
-		 *
-		 * This hook will fires if the user’s rights pass.
-		 *
-		 * @since      1.0.0
-		 *
-		 * @param      object         $this          .
-		 */
-		do_action_ref_array( 'mlp_init_metabox_track_save', array( &$this, $post_id, $data ) );
+	/**
+	 * Prepare new data.
+	 *
+	 * @since      1.0.0
+	 *
+	 * @param      object         $track         Instance of current track.
+	 * @param      int/string     $post_id       ID of page.
+	 * @param      array          $new_data      Saving data.
+	 * @param      array          $old_data      Old data from DB.
+	 *
+	 * @return     array          New data, equal in type to old.
+	 */
+	public function prepare_data( $track, $post_id, $new_data, $old_data ) {
 
-		/**
-		 * .
-		 *
-		 * This hook will fires if the user’s rights pass.
-		 *
-		 * @since      1.0.0
-		 *
-		 * @param      object         $this          .
-		 */
-		do_action_ref_array( "mlp_init_metabox_track_{$this->track_id}_save", array( &$this, $post_id, $data ) );
+		if ( $new_data && false === is_array( $new_data ) ) {
 
-		$this->define_process_meta( $this, $post_id, $data );
+			$new_data = array( $new_data );
 
+		}
+
+		if ( is_null( $new_data ) || '' === $new_data ) {
+
+			$new_data = array();
+
+		}
+
+		return $new_data;
 	}
 
 

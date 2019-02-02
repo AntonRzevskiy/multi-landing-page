@@ -27,15 +27,9 @@ class MLP_Query extends MLP_Query_Base {
 	 * Constructor.
 	 *
 	 * @since      1.0.0
-	 *
-	 * @param      MLP_Registry   $registry      An instance of a class that implements the following functions:
-	 *                                           ::get_taxonomy_tracks
-	 *                                           ::get_meta_tracks
 	 */
-	public function __construct( $registry ) {
-
-		$this->registry = $registry;
-
+	public function __construct() {
+		
 	}
 
 	/**
@@ -58,6 +52,8 @@ class MLP_Query extends MLP_Query_Base {
 	 * @return     array          The result of a query database.
 	 */
 	public function query( $query_args = array(), $url = array(), $strict = true ) {
+
+		global $mlp_registry;
 
 		$this->strict = $strict;
 
@@ -83,14 +79,14 @@ class MLP_Query extends MLP_Query_Base {
 		$meta_query = isset( $this->query_args[ 'meta_query' ] ) ? $this->query_args[ 'meta_query' ] : array();
 
 
-		$registered_tax_tracks = $this->registry->get_taxonomy_tracks( $post_type );
+		$registered_tax_tracks = $mlp_registry->get_taxonomy_tracks( $post_type );
 
 		$white_tax_tracks = $this->get_white_list_tracks( $registered_tax_tracks, $this->url );
 
 		$this->query_args[ 'tax_query' ] = $this->prepare_tax_query( $tax_query, $white_tax_tracks );
 
 
-		$registered_meta_tracks = $this->registry->get_meta_tracks( $post_type );
+		$registered_meta_tracks = $mlp_registry->get_meta_tracks( $post_type );
 
 		$white_meta_tracks = $this->get_white_list_tracks( $registered_meta_tracks, $this->url );
 

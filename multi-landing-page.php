@@ -71,26 +71,25 @@ if ( false === function_exists( 'mlp_load' ) ) {
 		$mlp_plugin = new Multi_Landing_Page();
 		$mlp_plugin->run();
 
-		return $mlp_plugin;
 	}
 
 	/**
-	 * Load & Get instance of plugin.
+	 * Load plugin.
 	 */
-	$mlp_instance = mlp_load();
+	mlp_load();
 
-	/**
-	 * Global API.
-	 */
-	if ( false === function_exists( 'mlp_query' ) ) {
+}
 
-		function mlp_query() {
+/**
+ * Global API.
+ */
+if ( false === function_exists( 'mlp_query' ) ) {
 
-			global $mlp_instance;
+	function mlp_query() {
 
-			return call_user_func_array( array( $mlp_instance->get_query(), 'query' ), func_get_args() );
-		}
+		global $mlp_query;
 
+		return call_user_func_array( array( $mlp_query, 'query' ), func_get_args() );
 	}
 
 }

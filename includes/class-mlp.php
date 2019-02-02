@@ -59,28 +59,6 @@ class Multi_Landing_Page {
 	protected $version;
 
 	/**
-	 * The tracks registered via hooks.
-	 *
-	 * @since      1.0.0
-	 *
-	 * @access     protected
-	 *
-	 * @var        MLP_Registry   $registry      The instance of class.
-	 */
-	protected $registry;
-
-	/**
-	 * .
-	 *
-	 * @since      1.0.0
-	 *
-	 * @access     protected
-	 *
-	 * @var        MLP_Query      $query         The instance of class.
-	 */
-	protected $query;
-
-	/**
 	 * Define the core functionality of the plugin.
 	 *
 	 * Set the plugin name and the plugin version that can be used throughout the plugin.
@@ -135,17 +113,22 @@ class Multi_Landing_Page {
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/core/class-mlp-loader.php';
 
 		/**
+		 * Interfaces.
+		 */
+		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/core/interface/mlp-track.php';
+
+		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/core/interface/mlp-metadata.php';
+
+		/**
 		 * The base class for register all tracks.
 		 */
-		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/core/abstract-class-mlp-related-base.php';
+		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/core/abstract/class-mlp-related-base.php';
 
-		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/core/abstract-class-mlp-track-base.php';
+		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/core/abstract/class-mlp-track-base.php';
 
-		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/core/abstract-class-mlp-query-base.php';
+		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/core/abstract/class-mlp-track-meta-base.php';
 
-		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/core/trait-mlp-metadata.php';
-
-		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/core/trait-mlp-display-metabox.php';
+		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/core/abstract/class-mlp-query-base.php';
 
 		/**
 		 * The child class that registers tracks through WP hooks.
@@ -166,6 +149,16 @@ class Multi_Landing_Page {
 
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/ext/class-mlp-track-meta-regexp-column.php';
 
+		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/ext/class-mlp-registry-meta-regexp-column-mask.php';
+
+		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/ext/class-mlp-mask.php';
+
+		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/ext/class-mlp-track-meta-regexp-column-mask.php';
+
+		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/ext/class-mlp-track-meta-regexp-column-input-count.php';
+
+		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/ext/class-mlp-track-meta-regexp-column-words-count.php';
+
 
 		$this->loader = new MLP_Loader();
 
@@ -180,19 +173,23 @@ class Multi_Landing_Page {
 	 */
 	private function define_hooks() {
 
-		$this->registry = new MLP_Registry();
+		$registry = new MLP_Registry();
 
-		$this->loader->add_action( 'init', $this->registry, 'add_url_tracks' );
-		$this->loader->add_action( 'init', $this->registry, 'add_post_type' );
+		$GLOBALS[ 'mlp_registry' ] = $registry;
 
-		$this->loader->add_action( 'init', $this->registry, 'register_post_type' );
-		$this->loader->add_action( 'init', $this->registry, 'register_taxonomy' );
-		$this->loader->add_action( 'add_meta_boxes', $this->registry, 'register_metaboxes' );
-		$this->loader->add_action( 'init', $this->registry, 'save_metaboxes' );
+		$this->loader->add_action( 'init', $registry, 'add_url_tracks' );
+		$this->loader->add_action( 'init', $registry, 'add_post_type' );
+
+		$this->loader->add_action( 'init', $registry, 'register_post_type' );
+		$this->loader->add_action( 'init', $registry, 'register_taxonomy' );
+		$this->loader->add_action( 'add_meta_boxes', $registry, 'register_metaboxes' );
+		$this->loader->add_action( 'init', $registry, 'save_metaboxes' );
 
 		$track_tax_filter = new MLP_Track_Tax_Filter();
 
 		$registry_meta_regexp_column = new MLP_Registry_Meta_Regexp_Column();
+
+		$registry_meta_regexp_column_mask = new MLP_Registry_Meta_Regexp_Column_Mask();
 
 	}
 
@@ -205,7 +202,7 @@ class Multi_Landing_Page {
 	 */
 	private function define_public() {
 
-		$this->query = new MLP_Query( $this->registry );
+		$GLOBALS[ 'mlp_query' ] = new MLP_Query();
 
 	}
 
@@ -270,24 +267,6 @@ class Multi_Landing_Page {
 	 */
 	public function get_version() {
 		return $this->version;
-	}
-
-	/**
-	 * .
-	 *
-	 * @since      1.0.0
-	 */
-	public function get_query() {
-		return $this->query;
-	}
-
-	/**
-	 * .
-	 *
-	 * @since      1.0.0
-	 */
-	public function get_registry() {
-		return $this->registry;
 	}
 
 
