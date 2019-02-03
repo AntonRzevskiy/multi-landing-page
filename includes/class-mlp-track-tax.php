@@ -48,27 +48,18 @@ class MLP_Track_Tax extends MLP_Track_Base {
 	 */
 	public function __construct( $args ) {
 
+		$this->type = 'taxonomy';
+
 		$args = wp_parse_args( $args, array(
 
-			'object_type'    => 'post',
-			'track_id'       => '',
-			'post_type'      => array(),
 			'taxonomy_args'  => array(),
 			'fill_tax_query' => array( $this, 'fill_tax_query' ),
 
 		) );
 
-		$this->args = $args;
+		$this->fill_tax_query = $args[ 'fill_tax_query' ];
 
-		$this->type = 'taxonomy';
-
-		$this->object_type = $args[ 'object_type' ];
-
-		$this->track_id = $args[ 'track_id' ];
-
-		$this->full_match = true;
-
-		$this->post_type = is_array( $args[ 'post_type' ] ) ? $args[ 'post_type' ] : array( $args[ 'post_type' ] );
+		$args[ 'full_match' ] = true;
 
 		$this->taxonomy_args = wp_parse_args( $args[ 'taxonomy_args' ], array(
 
@@ -80,10 +71,7 @@ class MLP_Track_Tax extends MLP_Track_Base {
 
 		) );
 
-		$this->fill_tax_query = $args[ 'fill_tax_query' ];
-
-		// Init
-		$this->init();
+		parent::__construct( $args );
 
 	}
 

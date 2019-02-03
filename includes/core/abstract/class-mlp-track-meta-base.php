@@ -40,6 +40,45 @@ abstract class MLP_Track_Meta_Base extends MLP_Track_Base implements MLP_Metadat
 	protected $fill_meta_query;
 
 	/**
+	 * Constructor.
+	 *
+	 * @since      1.0.0
+	 *
+	 * @param      array          $args          Arguments when creating.
+	 */
+	public function __construct( $args ) {
+
+		$this->type = 'meta';
+
+		$args = wp_parse_args( $args, array(
+
+			'meta_box'        => array(),
+			'fill_meta_query' => array( $this, 'fill_meta_query' ),
+
+		) );
+
+		$this->fill_meta_query = $args[ 'fill_meta_query' ];
+
+		parent::__construct( $args );
+
+		if ( false !== $args[ 'meta_box' ] ) {
+
+			$this->meta_box = wp_parse_args( $args[ 'meta_box' ], array(
+
+				'id'            => $this->track_id,
+				'title'         => $this->track_id,
+				'callback'      => array( $this, 'display_metabox_init' ),
+				'screen'        => $this->post_type,
+				'context'       => 'side',
+				'priority'      => 'low'
+
+			) );
+
+		}
+
+	}
+
+	/**
 	 * Fill part of meta query.
 	 *
 	 * @since      1.0.0

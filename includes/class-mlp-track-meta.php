@@ -22,60 +22,6 @@ class MLP_Track_Meta extends MLP_Track_Meta_Base {
 
 
 	/**
-	 * Constructor.
-	 *
-	 * @since      1.0.0
-	 *
-	 * @param      array          $args          Arguments when creating.
-	 */
-	public function __construct( $args ) {
-
-		$args = wp_parse_args( $args, array(
-
-			'object_type'     => 'post',
-			'track_id'        => '',
-			'full_match'      => true,
-			'post_type'       => array(),
-			'meta_box'        => array(),
-			'fill_meta_query' => array( $this, 'fill_meta_query' ),
-
-		) );
-
-		$this->args = $args;
-
-		$this->type = 'meta';
-
-		$this->object_type = $args[ 'object_type' ];
-
-		$this->track_id = $args[ 'track_id' ];
-
-		$this->full_match = $args[ 'full_match' ];
-
-		$this->post_type = is_array( $args[ 'post_type' ] ) ? $args[ 'post_type' ] : array( $args[ 'post_type' ] );
-
-		if ( false !== $args[ 'meta_box' ] ) {
-
-			$this->meta_box = wp_parse_args( $args[ 'meta_box' ], array(
-
-				'id'            => $this->track_id,
-				'title'         => $this->track_id,
-				'callback'      => array( $this, 'display_metabox_init' ),
-				'screen'        => $this->post_type,
-				'context'       => 'side',
-				'priority'      => 'low'
-
-			) );
-
-		}
-
-		$this->fill_meta_query = $args[ 'fill_meta_query' ];
-
-		// Init
-		$this->init();
-
-	}
-
-	/**
 	 * Fill part of meta query.
 	 *
 	 * @since      1.0.0

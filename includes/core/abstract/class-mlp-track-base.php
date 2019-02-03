@@ -79,6 +79,39 @@ abstract class MLP_Track_Base implements MLP_Track {
 	protected $args;
 
 	/**
+	 * Constructor.
+	 *
+	 * @since      1.0.0
+	 *
+	 * @param      array          $args          Arguments when creating.
+	 */
+	public function __construct( $args ) {
+
+		$args = wp_parse_args( $args, array(
+
+			'track_id'        => '',
+			'post_type'       => array(),
+			'object_type'     => 'post',
+			'full_match'      => true,
+
+		) );
+
+		$this->args = $args;
+
+		$this->track_id = $args[ 'track_id' ];
+
+		$this->post_type = is_array( $args[ 'post_type' ] ) ? $args[ 'post_type' ] : array( $args[ 'post_type' ] );
+
+		$this->object_type = $args[ 'object_type' ];
+
+		$this->full_match = $args[ 'full_match' ];
+
+		// Init
+		$this->init();
+
+	}
+
+	/**
 	 * Initialization.
 	 *
 	 * @since      1.0.0
