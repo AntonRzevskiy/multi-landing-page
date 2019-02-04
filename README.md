@@ -32,6 +32,3 @@ while ( $query->have_posts() ) {
 	the_title(); // print post title
 }
 ```
-
-### TRACK::is_strict()
-The track must be indicated in the URL or the post must not be tied to the track (_only for META_).
