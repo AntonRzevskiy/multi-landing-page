@@ -118,7 +118,13 @@ abstract class MLP_Track_Meta_Base extends MLP_Track_Base implements MLP_Metadat
 		 */
 		do_action_ref_array( "mlp_init_metabox_track_{$this->track_id}_display", array( &$this ) );
 
-		$this->display_track_html( $this );
+		global $post;
+
+		$data = $this->get_metadata( $this, $post->ID );
+
+		$valid = $this->is_valid_data( $this, $post->ID, array(), $data );
+
+		$this->display_track_html( $this, $post->ID, $data, $valid );
 
 	}
 
@@ -128,14 +134,11 @@ abstract class MLP_Track_Meta_Base extends MLP_Track_Base implements MLP_Metadat
 	 * @since      1.0.0
 	 *
 	 * @param      object         $track         Instance of current track.
+	 * @param      int/string     $post_id       ID of current page.
+	 * @param      array          $data          Data from DB.
+	 * @param      bool           $valid         True if data valid. False fail.
 	 */
-	public function display_track_html( $track ) {
-
-		global $post;
-
-		$data = $this->get_metadata( $track, $post->ID );
-
-		$valid = $this->is_valid_data( $track, $post->ID, $data, array() );
+	public function display_track_html( $track, $post_id, $data, $valid ) {
 
 		$value = esc_html( isset( $data[ 0 ] ) ? $data[ 0 ] : '' );
 
