@@ -3,6 +3,7 @@
 /**
  * The file that defines the class for display filter tax in admin panel.
  *
+ * This simple extension allows you to filter posts by tracks taxonomies in the admin panel.
  *
  * @since      1.0.0
  *
@@ -26,7 +27,8 @@ class MLP_Track_Tax_Filter {
 	 *
 	 * @since      1.0.0
 	 *
-	 * @var        array          $filter_track  .
+	 * @var        array          $filter_track  Contains a collection of tracks registered as filterable.
+	 *                                           Named array where key object type, value track id.
 	 */
 	protected $filter_track = array();
 
@@ -44,7 +46,7 @@ class MLP_Track_Tax_Filter {
 	}
 
 	/**
-	 * .
+	 * Define the track as filtered.
 	 *
 	 * @since      1.0.0
 	 */
@@ -88,7 +90,7 @@ class MLP_Track_Tax_Filter {
 	}
 
 	/**
-	 * .
+	 * Display filter in admin panel.
 	 *
 	 * @since      1.0.0
 	 */
