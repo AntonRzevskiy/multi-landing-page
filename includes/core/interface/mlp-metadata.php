@@ -136,8 +136,11 @@ interface MLP_Metadata {
 	 * @since      1.0.0
 	 *
 	 * @param      MLP_Metadata   $track         Instance of current track.
+	 * @param      int/string     $post_id       ID of current page.
+	 * @param      array          $data          Data from DB.
+	 * @param      bool           $valid         True if data valid. False fail.
 	 */
-	public function display_track_html( self $track );
+	public function display_track_html( self $track, $post_id, $data, $valid );
 
 
 }
