@@ -138,7 +138,7 @@ abstract class MLP_Track_Meta_Base extends MLP_Track_Base implements MLP_Metadat
 	 * @param      array          $data          Data from DB.
 	 * @param      bool           $valid         True if data valid. False fail.
 	 */
-	public function display_track_html( $track, $post_id, $data, $valid ) {
+	public function display_track_html( MLP_Metadata $track, $post_id, $data, $valid ) {
 
 		$value = esc_html( isset( $data[ 0 ] ) ? $data[ 0 ] : '' );
 
@@ -204,7 +204,7 @@ abstract class MLP_Track_Meta_Base extends MLP_Track_Base implements MLP_Metadat
 	 * @param      int/string     $post_id       Optional. ID of page. Default NULL.
 	 * @param      mixed          $new_data      Optional. Saving data. Default empty array.
 	 */
-	public function define_process_meta( $track, $post_id = NULL, $new_data = '' ) {
+	public function define_process_meta( MLP_Metadata $track, $post_id = NULL, $new_data = '' ) {
 
 		global $post;
 
@@ -265,7 +265,7 @@ abstract class MLP_Track_Meta_Base extends MLP_Track_Base implements MLP_Metadat
 	 *
 	 * @return     array          New data, equal in type to old.
 	 */
-	abstract public function prepare_data( $track, $post_id, $new_data, $old_data );
+	abstract public function prepare_data( MLP_Metadata $track, $post_id, $new_data, $old_data );
 
 	/**
 	 * Is new data valid.
@@ -279,7 +279,7 @@ abstract class MLP_Track_Meta_Base extends MLP_Track_Base implements MLP_Metadat
 	 *
 	 * @return     bool           True if data valid. False fail.
 	 */
-	public function is_valid_data( $track, $post_id, $new_data, $old_data ) {
+	public function is_valid_data( MLP_Metadata $track, $post_id, $new_data, $old_data ) {
 
 		/**
 		 * Fires before returned.
@@ -304,7 +304,7 @@ abstract class MLP_Track_Meta_Base extends MLP_Track_Base implements MLP_Metadat
 	 *
 	 * @return     array          Old data form DB. Empty array if fail.
 	 */
-	public function get_metadata( $track, $post_id = NULL ) {
+	public function get_metadata( MLP_Metadata $track, $post_id = NULL ) {
 
 		global $post;
 
@@ -330,7 +330,7 @@ abstract class MLP_Track_Meta_Base extends MLP_Track_Base implements MLP_Metadat
 	 * @param      array          $new_data      Saving data.
 	 * @param      array          $old_data      Old data from DB.
 	 */
-	public function save_metadata( $track, $post_id, $new_data, $old_data ) {
+	public function save_metadata( MLP_Metadata $track, $post_id, $new_data, $old_data ) {
 
 		/**
 		 * Fires before saving.
@@ -374,7 +374,7 @@ abstract class MLP_Track_Meta_Base extends MLP_Track_Base implements MLP_Metadat
 	 * @param      array          $new_data      Saving data.
 	 * @param      array          $old_data      Old data from DB.
 	 */
-	public function delete_metadata( $track, $post_id, $new_data, $old_data ) {
+	public function delete_metadata( MLP_Metadata $track, $post_id, $new_data, $old_data ) {
 
 		$old_data = array_slice( $old_data, count( $new_data ) );
 

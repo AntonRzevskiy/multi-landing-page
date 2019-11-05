@@ -180,7 +180,7 @@ abstract class MLP_Track_Base implements MLP_Track {
 	 *
 	 * @return     mixed          Property of class or null if fail.
 	 */
-	public function get( $property ) {
+	public function get( string $property ) {
 		if ( property_exists( $this, $property ) ) {
 			return $this->{$property};
 		}

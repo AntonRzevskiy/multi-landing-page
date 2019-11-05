@@ -143,7 +143,7 @@ class MLP_Track_Meta extends MLP_Track_Meta_Base {
 	 *
 	 * @return     array          New data, equal in type to old.
 	 */
-	public function prepare_data( $track, $post_id, $new_data, $old_data ) {
+	public function prepare_data( MLP_Metadata $track, $post_id, $new_data, $old_data ) {
 
 		if ( $new_data && false === is_array( $new_data ) ) {
 

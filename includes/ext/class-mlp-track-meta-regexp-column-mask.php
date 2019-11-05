@@ -82,7 +82,7 @@ class MLP_Track_Meta_Regexp_Column_Mask extends MLP_Track_Meta_Regexp_Column {
 	 *
 	 * @since      1.0.0
 	 */
-	public function prepare_data( $track, $post_id, $new_data, $old_data ) {
+	public function prepare_data( MLP_Metadata $track, $post_id, $new_data, $old_data ) {
 
 		$new_data = parent::prepare_data( $track, $post_id, $new_data, $old_data );
 
